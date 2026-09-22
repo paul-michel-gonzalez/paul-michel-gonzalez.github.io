@@ -3,79 +3,171 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Paul Michel - Portafolio</title>
+    <title>Paul Michel - Terminal Portafolio</title>
     <style>
         :root {
-            --primary: #0077b5; /* Azul profesional estilo LinkedIn */
-            --bg: #f3f2ef;
-            --text: #191919;
+            --bg-main: #0a0f0d;      /* Fondo negro profundo */
+            --bg-card: #111a16;      /* Fondo de tarjetas gris-verdoso muy oscuro */
+            --accent: #00ff66;       /* Verde neón estilo hacker */
+            --accent-dim: #006622;   /* Verde oscuro para bordes */
+            --text-main: #c8ffd4;    /* Texto claro con tinte verde */
+            --text-muted: #70a37f;   /* Texto secundario */
         }
-        * { box-sizing: border-box; }
-        body { font-family: -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; margin: 0; background: var(--bg); color: var(--text); display: flex; justify-content: center; padding: 40px 20px; }
         
-        /* Contenedor Principal de Dos Columnas */
+        * { box-sizing: border-box; }
+        
+        /* Fondo con efecto de líneas de escaneo de terminal antigua */
+        body { 
+            font-family: 'Courier New', Courier, monospace; 
+            margin: 0; 
+            background-color: var(--bg-main); 
+            color: var(--text-main); 
+            display: flex; 
+            justify-content: center; 
+            padding: 40px 20px;
+            background-image: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+            background-size: 100% 4px, 3px 100%;
+        }
+        
+        /* Contenedor Principal */
         .container { display: flex; gap: 24px; max-width: 1128px; width: 100%; align-items: flex-start; }
 
-        /* Columna Izquierda: Tarjeta de Perfil Fija */
-        .sidebar { width: 300px; background: white; border-radius: 10px; padding: 24px; box-shadow: 0 0 0 1px rgba(0,0,0,0.08), 0 4px 4px rgba(0,0,0,0.02); text-align: center; position: sticky; top: 40px; }
-        .profile-img { width: 120px; height: 120px; border-radius: 50%; background: #ddd; margin: 0 auto 16px; display: flex; align-items: center; justify-content: center; font-size: 40px; color: #777; border: 4px solid var(--bg); }
-        .sidebar h1 { font-size: 20px; margin: 0 0 4px 0; }
-        .sidebar p { color: #666; font-size: 14px; margin: 0 0 16px 0; }
+        /* Columna Izquierda: Terminal de Control (Sidebar) */
+        .sidebar { 
+            width: 300px; 
+            background: var(--bg-card); 
+            border: 1px solid var(--accent-dim); 
+            border-radius: 6px; 
+            padding: 24px; 
+            box-shadow: 0 0 15px rgba(0, 255, 102, 0.1); 
+            text-align: center; 
+            position: sticky; 
+            top: 40px; 
+        }
         
-        /* Menú de pestañas en la barra lateral */
+        /* Imagen de perfil estilo interfaz digital */
+        .profile-img { 
+            width: 120px; 
+            height: 120px; 
+            border-radius: 50%; 
+            background: #000; 
+            margin: 0 auto 16px; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            font-size: 40px; 
+            border: 2px solid var(--accent); 
+            box-shadow: 0 0 10px var(--accent-dim);
+            animation: pulse 2s infinite alternate;
+        }
+        
+        .sidebar h1 { font-size: 18px; margin: 0 0 4px 0; color: var(--accent); text-shadow: 0 0 5px var(--accent-dim); }
+        .sidebar p { color: var(--text-muted); font-size: 13px; margin: 0 0 16px 0; }
+        
+        /* Menú de comandos/pestañas */
         .nav-menu { display: flex; flex-direction: column; gap: 8px; margin-top: 20px; }
-        .nav-menu a { text-decoration: none; color: #000000e6; font-weight: 600; padding: 12px; border-radius: 8px; font-size: 14px; text-align: left; transition: background 0.2s; }
-        .nav-menu a:hover { background: rgba(0,0,0,0.04); color: var(--primary); }
+        .nav-menu a { 
+            text-decoration: none; 
+            color: var(--text-main); 
+            font-weight: bold; 
+            padding: 12px; 
+            border-radius: 4px; 
+            font-size: 13px; 
+            text-align: left; 
+            border: 1px solid transparent;
+            transition: all 0.2s;
+        }
+        .nav-menu a:hover { 
+            background: rgba(0, 255, 102, 0.05); 
+            color: var(--accent); 
+            border: 1px solid var(--accent-dim);
+            box-shadow: 0 0 8px rgba(0,255,102,0.1);
+        }
 
-        /* Columna Derecha: Contenido Dinámico */
-        .content { flex: 1; background: white; border-radius: 10px; padding: 40px; box-shadow: 0 0 0 1px rgba(0,0,0,0.08), 0 4px 4px rgba(0,0,0,0.02); min-height: 450px; }
+        /* Columna Derecha: Consola de Datos */
+        .content { 
+            flex: 1; 
+            background: var(--bg-card); 
+            border: 1px solid var(--accent-dim); 
+            border-radius: 6px; 
+            padding: 40px; 
+            box-shadow: 0 0 15px rgba(0, 255, 102, 0.1); 
+            min-height: 450px; 
+        }
         
-        /* Sistema de Pestañas con Anclas CSS */
+        /* Enrutamiento por anclas */
         .tab-section { display: none; }
-        #perfil { display: block; } /* Mostrar por defecto */
+        #perfil { display: block; } 
         .tab-section:target { display: block; }
         :target ~ #perfil { display: none; }
 
-        h2 { border-bottom: 2px solid var(--bg); padding-bottom: 12px; margin-top: 0; font-size: 24px; }
-        .project-card { border: 1px solid #e0e0e0; padding: 16px; border-radius: 8px; margin-top: 16px; }
+        h2 { border-bottom: 1px solid var(--accent-dim); padding-bottom: 12px; margin-top: 0; font-size: 20px; color: var(--accent); }
+        
+        /* Estilo de bloques de proyectos como código fuente */
+        .project-card { 
+            border: 1px dashed var(--accent-dim); 
+            padding: 16px; 
+            border-radius: 4px; 
+            margin-top: 16px; 
+            background: rgba(0,0,0,0.3);
+        }
+        .project-card h3 { margin-top: 0; color: var(--accent); font-size: 16px; }
+
+        /* Animación parpadeante para el avatar */
+        @keyframes pulse {
+            0% { box-shadow: 0 0 5px var(--accent-dim); border-color: var(--accent-dim); }
+            100% { box-shadow: 0 0 15px var(--accent); border-color: var(--accent); }
+        }
+
+        /* Indicador de consola de comandos interactivo */
+        .prompt::before {
+            content: "guest@paul-pc:~$ ";
+            color: var(--accent);
+        }
     </style>
 </head>
 <body>
 
     <div class="container">
-        <!-- BARRA LATERAL -->
+        <!-- BARRA LATERAL (TERMINAL CONTROL) -->
         <aside class="sidebar">
-            <div class="profile-img">👨‍💻</div>
-            <h1>Paul Michel González</h1>
-            <p>Desarrollador / Profesional Técnico</p>
+            <div class="profile-img">💻</div>
+            <h1>SYSTEM://PAUL_MICHEL</h1>
+            <p>_status: online // dev_mode</p>
             
             <nav class="nav-menu">
-                <a href="#perfil">👤 Sobre Mí</a>
-                <a href="#proyectos">💼 Proyectos</a>
-                <a href="#series">📺 Series e Intereses</a>
+                <a href="#perfil">> ./root_about_me</a>
+                <a href="#proyectos">> ./repositories_log</a>
+                <a href="#series">> ./interests_media</a>
             </nav>
         </aside>
 
-        <!-- CONTENIDO PRINCIPAL -->
+        <!-- CONTENIDO PRINCIPAL (CONSOLA) -->
         <main class="content">
             <section id="perfil" class="tab-section">
-                <h2>Sobre Mí</h2>
-                <p>¡Hola! Soy Paul Michel González Pérez. Bienvenido a mi portafolio web personal alojado de manera estática y completamente gratuita en GitHub Pages.</p>
-                <p>Aquí comparto mi trayectoria, intereses y los proyectos de software en los que trabajo.</p>
+                <h2>[01] SOBRE MÍ</h2>
+                <p class="prompt">Inicializando perfil de usuario...</p>
+                <p>¡Hola! Mi nombre es <strong>Paul Michel González Pérez</strong>. Este es mi espacio virtual principal de despliegue, montado de manera estática y centralizada sobre los servidores de GitHub Pages.</p>
+                <p>Especializado en arquitecturas de sistemas, despliegues y control de entornos de desarrollo avanzados.</p>
             </section>
 
             <section id="proyectos" class="tab-section">
-                <h2>Mis Proyectos</h2>
-                <p>Explora algunos de los repositorios y aplicaciones en los que he colaborado:</p>
+                <h2>[02] REPOSITORIOS Y PROYECTOS</h2>
+                <p class="prompt">Buscando repositorios públicos...</p>
                 <div class="project-card">
-                    <h3>Proyecto Destacado 1</h3>
-                    <p>Descripción corta de lo que hace este proyecto técnico y tecnologías usadas.</p>
+                    <h3>> REPO_DESTACADO_01</h3>
+                    <p>Módulo de automatización de scripts. Escrito usando buenas prácticas y optimización de recursos.</p>
+                </div>
+                <div class="project-card">
+                    <h3>> REPO_DESTACADO_02</h3>
+                    <p>Configuraciones de red seguras, contenedores y entornos aislados para desarrollo de software.</p>
                 </div>
             </section>
 
             <section id="series" class="tab-section">
-                <h2>Series e Intereses</h2>
-                <p>En esta sección comparto mis pasatiempos, contenidos multimedia preferidos o documentación técnica que sigo de cerca.</p>
+                <h2>[03] INTERESES Y CONTENIDOS</h2>
+                <p class="prompt">Abriendo bitácora de intereses...</p>
+                <p>Análisis de series técnicas de ciberseguridad, documentación oficial de Linux, configuraciones avanzadas de terminales de comandos y desarrollo de software libre.</p>
             </section>
         </main>
     </div>
