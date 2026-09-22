@@ -1,251 +1,548 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Paul Michel - Cyber Terminal</title>
-    <style>
-        :root {
-            --bg-main: #050a05;      
-            --bg-card: rgba(10, 20, 12, 0.92);      
-            --accent: #00ff66;       
-            --accent-dim: #005f26;   
-            --text-main: #d0ffd0;    
-            --text-muted: #55946b;   
-        }
-        
-        * { box-sizing: border-box; }
-        
-        body { 
-            font-family: 'Courier New', Courier, monospace; 
-            margin: 0; 
-            background-color: var(--bg-main); 
-            color: var(--text-main); 
-            display: flex; 
-            justify-content: center; 
-            padding: 40px 20px;
-            overflow-x: hidden;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Paul Michel González Pérez | Cyber Terminal</title>
+<meta name="description" content="Portafolio de Paul Michel González Pérez — Ingeniero en infraestructura de redes, datos y ciberseguridad. Especialista en suite Forcepoint.">
+<meta property="og:title" content="Paul Michel González Pérez — CORE://PAUL_GONZALEZ">
+<meta property="og:description" content="Ingeniero en infraestructura de redes y datos. Ciberseguridad, Forcepoint, redes empresariales.">
+<meta property="og:type" content="website">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%E2%9A%A1%3C/text%3E%3C/svg%3E">
+<style>
+    :root {
+        --bg-main: #050a05;
+        --bg-card: rgba(10, 20, 12, 0.92);
+        --accent: #00ff66;
+        --accent-dim: #005f26;
+        --accent-glow: rgba(0, 255, 102, 0.2);
+        --text-main: #d0ffd0;
+        --text-muted: #55946b;
+        --danger: #ff4444;
+        --warn: #ffb703;
+    }
 
-        #matrix-bg {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            z-index: -1;
-        }
-        
-        .container { display: flex; gap: 24px; max-width: 1128px; width: 100%; align-items: flex-start; z-index: 10; }
+    * { box-sizing: border-box; }
 
-        .sidebar { 
-            width: 300px; 
-            background: var(--bg-card); 
-            border: 1px solid var(--accent); 
-            border-radius: 4px; 
-            padding: 24px; 
-            box-shadow: 0 0 20px rgba(0, 255, 102, 0.2); 
-            text-align: center; 
-            position: sticky; 
-            top: 40px; 
-            backdrop-filter: blur(5px);
-        }
-        
-        .profile-img { 
-            width: 120px; height: 120px; border-radius: 50%; background: #000; 
-            margin: 0 auto 16px; display: flex; align-items: center; justify-content: center; 
-            font-size: 40px; border: 2px solid var(--accent); 
-            box-shadow: 0 0 15px var(--accent-dim); animation: pulse 2s infinite alternate;
-        }
-        
-        .sidebar h1 { font-size: 16px; margin: 0 0 4px 0; color: var(--accent); text-shadow: 0 0 5px var(--accent); }
-        .sidebar p { color: var(--text-muted); font-size: 12px; margin: 0 0 16px 0; }
-        
-        .nav-menu { display: flex; flex-direction: column; gap: 8px; margin-top: 20px; }
-        .nav-menu button { 
-            text-decoration: none; color: var(--text-main); font-weight: bold; 
-            padding: 12px; border-radius: 4px; font-size: 13px; text-align: left; 
-            border: 1px solid var(--accent-dim); background: rgba(0,0,0,0.4); 
-            cursor: pointer; font-family: monospace; transition: all 0.2s;
-        }
-        .nav-menu button:hover, .nav-menu button.active { 
-            background: rgba(0, 255, 102, 0.15); color: #fff; 
-            border: 1px solid var(--accent); box-shadow: 0 0 10px rgba(0,255,102,0.3);
-        }
+    html { scroll-behavior: smooth; }
 
-        .content { 
-            flex: 1; background: var(--bg-card); border: 1px solid var(--accent); 
-            border-radius: 4px; padding: 40px; box-shadow: 0 0 20px rgba(0, 255, 102, 0.2); 
-            min-height: 480px; backdrop-filter: blur(5px);
-        }
-        
-        .tab-section { display: none; }
-        .tab-section.active { display: block; }
+    body {
+        font-family: 'Courier New', Courier, monospace;
+        margin: 0;
+        background-color: var(--bg-main);
+        color: var(--text-main);
+        display: flex;
+        justify-content: center;
+        padding: 40px 20px;
+        overflow-x: hidden;
+        min-height: 100vh;
+    }
 
-        h2 { border-bottom: 1px solid var(--accent); padding-bottom: 12px; margin-top: 0; font-size: 18px; color: var(--accent); text-shadow: 0 0 5px var(--accent); }
-        
-        .project-card { 
-            border: 1px dashed var(--accent); padding: 16px; border-radius: 4px; 
-            margin-top: 16px; background: rgba(0,0,0,0.5);
-        }
-        .project-card h3 { margin-top: 0; color: var(--accent); font-size: 15px; }
+    #matrix-bg {
+        position: fixed;
+        top: 0; left: 0;
+        width: 100vw; height: 100vh;
+        z-index: -1;
+    }
 
-        .game-box { background: #000; border: 1px solid var(--accent); padding: 20px; margin-top: 20px; border-radius: 4px; }
-        .game-input { background: #000; border: 1px solid var(--accent); color: var(--accent); padding: 8px; font-family: monospace; width: 150px; margin-top: 10px; }
-        .game-btn { background: var(--accent-dim); border: 1px solid var(--accent); color: white; padding: 8px 16px; cursor: pointer; font-family: monospace; }
-        .game-btn:hover { background: var(--accent); color: #000; font-weight: bold; }
-        #game-log { max-height: 120px; overflow-y: auto; margin-top: 15px; color: var(--text-muted); font-size: 12px; }
+    /* ---------- BOOT SCREEN ---------- */
+    #boot-screen {
+        position: fixed;
+        inset: 0;
+        background: #000;
+        color: var(--accent);
+        font-family: 'Courier New', monospace;
+        font-size: 14px;
+        padding: 40px;
+        z-index: 999;
+        overflow: hidden;
+        transition: opacity 0.6s ease;
+    }
+    #boot-lines p { margin: 4px 0; opacity: 0; animation: fadeInLine 0.15s forwards; }
+    #boot-cursor { display: inline-block; width: 8px; height: 14px; background: var(--accent); animation: blink 0.8s steps(1) infinite; vertical-align: middle; }
+    @keyframes fadeInLine { to { opacity: 1; } }
+    @keyframes blink { 50% { opacity: 0; } }
+    #boot-screen.hidden { opacity: 0; pointer-events: none; }
 
-        @keyframes pulse { 0% { box-shadow: 0 0 5px var(--accent-dim); } 100% { box-shadow: 0 0 20px var(--accent); } }
-        .prompt::before { content: "root@paul-pc:~$ "; color: var(--accent); }
-    </style>
+    .container {
+        display: flex; gap: 24px; max-width: 1128px; width: 100%;
+        align-items: flex-start; z-index: 10;
+        opacity: 0; transform: translateY(10px);
+        transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .container.revealed { opacity: 1; transform: translateY(0); }
+
+    .sidebar {
+        width: 300px;
+        background: var(--bg-card);
+        border: 1px solid var(--accent);
+        border-radius: 4px;
+        padding: 24px;
+        box-shadow: 0 0 20px var(--accent-glow);
+        text-align: center;
+        position: sticky;
+        top: 40px;
+        backdrop-filter: blur(5px);
+        flex-shrink: 0;
+    }
+
+    .profile-img {
+        width: 110px; height: 110px; border-radius: 50%; background: #000;
+        margin: 0 auto 16px; display: flex; align-items: center; justify-content: center;
+        font-size: 38px; border: 2px solid var(--accent);
+        box-shadow: 0 0 15px var(--accent-dim); animation: pulse 2s infinite alternate;
+    }
+
+    .sidebar h1 { font-size: 15px; margin: 0 0 4px 0; color: var(--accent); text-shadow: 0 0 5px var(--accent); word-break: break-word; }
+    .sidebar p.status { color: var(--text-muted); font-size: 11px; margin: 0 0 4px 0; }
+    .sidebar .role { color: var(--text-muted); font-size: 11px; margin: 0 0 16px 0; line-height: 1.5; }
+
+    .social-row { display: flex; justify-content: center; gap: 10px; margin-bottom: 18px; }
+    .social-row a {
+        width: 34px; height: 34px; border: 1px solid var(--accent-dim); border-radius: 4px;
+        display: flex; align-items: center; justify-content: center; color: var(--accent);
+        text-decoration: none; font-size: 15px; transition: all 0.2s;
+    }
+    .social-row a:hover { border-color: var(--accent); box-shadow: 0 0 10px var(--accent-glow); background: rgba(0,255,102,0.08); }
+
+    .nav-menu { display: flex; flex-direction: column; gap: 8px; margin-top: 4px; }
+    .nav-menu button {
+        text-decoration: none; color: var(--text-main); font-weight: bold;
+        padding: 11px 12px; border-radius: 4px; font-size: 12.5px; text-align: left;
+        border: 1px solid var(--accent-dim); background: rgba(0,0,0,0.4);
+        cursor: pointer; font-family: monospace; transition: all 0.2s;
+    }
+    .nav-menu button:hover, .nav-menu button.active {
+        background: rgba(0, 255, 102, 0.15); color: #fff;
+        border: 1px solid var(--accent); box-shadow: 0 0 10px rgba(0,255,102,0.3);
+    }
+
+    .cv-btn {
+        display: block; margin-top: 16px; padding: 10px; text-align: center;
+        border: 1px dashed var(--accent); color: var(--accent); text-decoration: none;
+        font-size: 12px; border-radius: 4px; font-family: monospace; transition: all 0.2s;
+    }
+    .cv-btn:hover { background: rgba(0,255,102,0.1); box-shadow: 0 0 10px var(--accent-glow); }
+
+    .content {
+        flex: 1; background: var(--bg-card); border: 1px solid var(--accent);
+        border-radius: 4px; padding: 36px; box-shadow: 0 0 20px var(--accent-glow);
+        min-height: 520px; backdrop-filter: blur(5px); min-width: 0;
+    }
+
+    .tab-section { display: none; }
+    .tab-section.active { display: block; animation: fadeIn 0.35s ease; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(6px);} to { opacity: 1; transform: translateY(0);} }
+
+    h2 { border-bottom: 1px solid var(--accent); padding-bottom: 12px; margin-top: 0; font-size: 17px; color: var(--accent); text-shadow: 0 0 5px var(--accent); letter-spacing: 0.5px; }
+
+    #typed-about { min-height: 60px; }
+    .cursor-typing { display: inline-block; width: 8px; background: var(--accent); animation: blink 0.8s steps(1) infinite; margin-left: 2px; }
+
+    .project-card, .exp-item {
+        border: 1px dashed var(--accent); padding: 16px; border-radius: 4px;
+        margin-top: 16px; background: rgba(0,0,0,0.5);
+    }
+    .project-card h3, .exp-item h3 { margin-top: 0; color: var(--accent); font-size: 14.5px; }
+    .project-card .tags { margin-top: 10px; display: flex; flex-wrap: wrap; gap: 6px; }
+    .project-card .tags span { border: 1px solid var(--accent-dim); color: var(--text-muted); font-size: 10.5px; padding: 3px 7px; border-radius: 3px; }
+
+    /* Certs grid */
+    .cert-grid, .stack-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 12px; margin-top: 16px; }
+    .cert-item, .stack-item {
+        border: 1px solid var(--accent-dim); border-radius: 4px; padding: 12px;
+        background: rgba(0,0,0,0.45); font-size: 12px; display: flex; align-items: center; gap: 10px;
+        transition: all 0.2s;
+    }
+    .cert-item:hover, .stack-item:hover { border-color: var(--accent); box-shadow: 0 0 8px var(--accent-glow); transform: translateY(-2px); }
+    .cert-item .ok { color: var(--accent); font-weight: bold; }
+    .stack-badge {
+        width: 30px; height: 30px; border: 1px solid var(--accent); border-radius: 4px;
+        display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: bold;
+        color: var(--accent); flex-shrink: 0;
+    }
+
+    /* Timeline */
+    .timeline { position: relative; margin-top: 20px; padding-left: 20px; border-left: 2px solid var(--accent-dim); }
+    .timeline .exp-item { margin-left: 10px; position: relative; }
+    .timeline .exp-item::before {
+        content: ''; position: absolute; left: -25px; top: 18px; width: 10px; height: 10px;
+        background: var(--accent); border-radius: 50%; box-shadow: 0 0 8px var(--accent);
+    }
+    .exp-item .date { color: var(--text-muted); font-size: 11px; display: block; margin-bottom: 4px; }
+
+    /* Contact */
+    .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 16px; }
+    .contact-card { border: 1px solid var(--accent-dim); border-radius: 4px; padding: 16px; background: rgba(0,0,0,0.45); text-align: center; }
+    .contact-card a { color: var(--accent); text-decoration: none; font-size: 13px; word-break: break-all; }
+    .contact-card .label { color: var(--text-muted); font-size: 11px; display: block; margin-bottom: 6px; }
+
+    /* Terminal */
+    .terminal-box { background: #000; border: 1px solid var(--accent); border-radius: 4px; margin-top: 18px; overflow: hidden; }
+    #term-output { height: 260px; overflow-y: auto; padding: 14px; font-size: 12.5px; color: var(--text-main); }
+    #term-output p { margin: 3px 0; white-space: pre-wrap; word-break: break-word; }
+    .term-input-row { display: flex; align-items: center; border-top: 1px solid var(--accent-dim); padding: 8px 12px; background: rgba(0,255,102,0.03); }
+    .term-input-row span { color: var(--accent); margin-right: 6px; font-size: 13px; }
+    #term-input {
+        flex: 1; background: transparent; border: none; outline: none; color: var(--accent);
+        font-family: monospace; font-size: 13px;
+    }
+    .term-hint { color: var(--text-muted); font-size: 11px; margin-top: 8px; }
+
+    .game-input { background: #000; border: 1px solid var(--accent); color: var(--accent); padding: 8px; font-family: monospace; width: 140px; }
+    .game-btn { background: var(--accent-dim); border: 1px solid var(--accent); color: white; padding: 8px 16px; cursor: pointer; font-family: monospace; }
+    .game-btn:hover { background: var(--accent); color: #000; font-weight: bold; }
+
+    @keyframes pulse { 0% { box-shadow: 0 0 5px var(--accent-dim); } 100% { box-shadow: 0 0 20px var(--accent); } }
+    .prompt::before { content: "root@paul-pc:~$ "; color: var(--accent); }
+
+    footer.site-footer { text-align: center; color: var(--text-muted); font-size: 11px; margin-top: 18px; }
+
+    /* Responsive */
+    @media (max-width: 800px) {
+        body { padding: 16px 10px; }
+        .container { flex-direction: column; }
+        .sidebar { width: 100%; position: relative; top: 0; }
+        .content { padding: 22px; }
+        .contact-grid { grid-template-columns: 1fr; }
+    }
+</style>
 </head>
 <body>
 
-    <canvas id="matrix-bg"></canvas>
+<canvas id="matrix-bg" aria-hidden="true"></canvas>
 
-    <div class="container">
-        <!-- SIDEBAR DE COMANDOS -->
-        <aside class="sidebar">
-            <div class="profile-img">⚡</div>
-            <h1>CORE://PAUL_GONZALEZ</h1>
-            <p>STATUS: OVERRIDE_ACTIVE</p>
-            
-            <nav class="nav-menu">
-                <button class="tab-btn active" onclick="openTab('perfil')">> CAT ABOUT_ME.TXT</button>
-                <button class="tab-btn" onclick="openTab('proyectos')">> LS REPOSITORIES/</button>
-                <button class="tab-btn" onclick="openTab('series')">> Sudo ./play_game</button>
-            </nav>
-        </aside>
+<!-- BOOT SCREEN -->
+<div id="boot-screen">
+    <div id="boot-lines"></div>
+</div>
 
-        <!-- PANTALLA PRINCIPAL -->
-        <main class="content">
-            <!-- SECCIÓN SOBRE MÍ -->
-            <section id="perfil" class="tab-section active">
-                <h2>[ SECURE_ACCESS: PERFIL ]</h2>
-                <p class="prompt">cat about_me.txt</p>
-                <p>Cargando registros de <strong>Paul Michel González Pérez</strong>...</p>
-                <p>Desarrollador de entornos informáticos, apasionado por las terminales de comandos avanzadas, la automatización y el diseño de interfaces seguras de alto impacto visual.</p>
-            </section>
+<div class="container" id="main-container">
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+        <div class="profile-img">⚡</div>
+        <h1>CORE://PAUL_GONZALEZ</h1>
+        <p class="status">STATUS: OVERRIDE_ACTIVE</p>
+        <p class="role">Ingeniero en infraestructura de redes, datos y ciberseguridad</p>
 
-            <!-- SECCIÓN PROYECTOS -->
-            <section id="proyectos" class="tab-section">
-                <h2>[ SYSTEM_LOG: REPOSITORIOS ]</h2>
-                <p class="prompt">ls -la repositories/</p>
-                <div class="project-card">
-                    <h3>> SCRIPT_AUTOMATION_OS</h3>
-                    <p>Herramientas personalizadas para la optimización de flujos de trabajo sobre Linux y Windows.</p>
+        <div class="social-row">
+            <a href="mailto:tu-correo@ejemplo.com" title="Email" aria-label="Email">✉</a>
+            <a href="https://www.linkedin.com/in/tu-usuario" target="_blank" rel="noopener" title="LinkedIn" aria-label="LinkedIn">in</a>
+            <a href="https://github.com/tu-usuario" target="_blank" rel="noopener" title="GitHub" aria-label="GitHub">⌥</a>
+        </div>
+
+        <nav class="nav-menu">
+            <button class="tab-btn active" onclick="openTab('perfil', this)">> cat about_me.txt</button>
+            <button class="tab-btn" onclick="openTab('certificaciones', this)">> cat certs.log</button>
+            <button class="tab-btn" onclick="openTab('stack', this)">> ls -la stack/</button>
+            <button class="tab-btn" onclick="openTab('proyectos', this)">> ls repositories/</button>
+            <button class="tab-btn" onclick="openTab('experiencia', this)">> git log --oneline</button>
+            <button class="tab-btn" onclick="openTab('contacto', this)">> cat contact.cfg</button>
+            <button class="tab-btn" onclick="openTab('terminal', this)">> sudo ./terminal</button>
+        </nav>
+
+        <a href="tu-cv.pdf" download class="cv-btn">⬇ wget cv_paul.pdf</a>
+    </aside>
+
+    <!-- CONTENIDO -->
+    <main class="content">
+
+        <section id="perfil" class="tab-section active">
+            <h2>[ SECURE_ACCESS: PERFIL ]</h2>
+            <p class="prompt">cat about_me.txt</p>
+            <p>Cargando registros de <strong>Paul Michel González Pérez</strong>...</p>
+            <p id="typed-about"></p>
+        </section>
+
+        <section id="certificaciones" class="tab-section">
+            <h2>[ SYSTEM_LOG: CERTIFICACIONES ]</h2>
+            <p class="prompt">cat certs.log</p>
+            <div class="cert-grid">
+                <div class="cert-item"><span class="ok">[OK]</span> Forcepoint Web Security / Proxy</div>
+                <div class="cert-item"><span class="ok">[OK]</span> Forcepoint DLP</div>
+                <div class="cert-item"><span class="ok">[OK]</span> Forcepoint Cloud Security</div>
+                <div class="cert-item"><span class="ok">[OK]</span> Forcepoint Endpoint (FONE)</div>
+                <div class="cert-item"><span class="ok">[OK]</span> Forcepoint CASB</div>
+                <div class="cert-item"><span class="ok">[OK]</span> Forcepoint Email Security</div>
+                <div class="cert-item"><span class="ok">[OK]</span> Forcepoint NGFW</div>
+            </div>
+        </section>
+
+        <section id="stack" class="tab-section">
+            <h2>[ SYSTEM_LOG: STACK TÉCNICO ]</h2>
+            <p class="prompt">ls -la stack/</p>
+            <div class="stack-grid">
+                <div class="stack-item"><span class="stack-badge">FP</span> Forcepoint</div>
+                <div class="stack-item"><span class="stack-badge">FTN</span> Fortinet</div>
+                <div class="stack-item"><span class="stack-badge">PA</span> Palo Alto</div>
+                <div class="stack-item"><span class="stack-badge">CS</span> Cisco</div>
+                <div class="stack-item"><span class="stack-badge">ZS</span> Zscaler</div>
+                <div class="stack-item"><span class="stack-badge">AWS</span> AWS EC2</div>
+                <div class="stack-item"><span class="stack-badge">AZ</span> Azure</div>
+                <div class="stack-item"><span class="stack-badge">GCP</span> GCP</div>
+                <div class="stack-item"><span class="stack-badge">OCI</span> Oracle Cloud</div>
+                <div class="stack-item"><span class="stack-badge">VM</span> VMware / ESXi</div>
+                <div class="stack-item"><span class="stack-badge">LX</span> Linux Server</div>
+                <div class="stack-item"><span class="stack-badge">WS</span> Windows Server</div>
+                <div class="stack-item"><span class="stack-badge">ZBX</span> Zabbix</div>
+                <div class="stack-item"><span class="stack-badge">NAG</span> Nagios</div>
+                <div class="stack-item"><span class="stack-badge">PY</span> Python</div>
+                <div class="stack-item"><span class="stack-badge">KL</span> Kali Linux</div>
+            </div>
+        </section>
+
+        <section id="proyectos" class="tab-section">
+            <h2>[ SYSTEM_LOG: REPOSITORIOS ]</h2>
+            <p class="prompt">ls -la repositories/</p>
+            <div class="project-card">
+                <h3>> AD_DNS_DHCP_HARDENED</h3>
+                <p>Despliegue de Active Directory, DNS, DHCP y autenticación 2FA (Google Authenticator) sobre Ubuntu Server 24.04, con NTPsec para sincronización segura.</p>
+                <div class="tags"><span>Ubuntu Server</span><span>Samba AD</span><span>2FA</span><span>NTPsec</span></div>
+            </div>
+            <div class="project-card">
+                <h3>> WINDOWS_INFRA_STACK</h3>
+                <p>Implementación de Active Directory, DNS, DHCP e IIS en entornos Windows Server (2019–2025) para infraestructura empresarial.</p>
+                <div class="tags"><span>Windows Server</span><span>AD DS</span><span>IIS</span></div>
+            </div>
+            <div class="project-card">
+                <h3>> AI_SECURITY_AUDIT</h3>
+                <p>Auditorías de seguridad y optimización de código usando Kali Linux junto con modelos de IA (Llama 3.2) para acelerar el análisis.</p>
+                <div class="tags"><span>Kali Linux</span><span>Llama 3.2</span><span>Auditoría</span></div>
+            </div>
+        </section>
+
+        <section id="experiencia" class="tab-section">
+            <h2>[ SYSTEM_LOG: EXPERIENCIA ]</h2>
+            <p class="prompt">git log --oneline --graph</p>
+            <div class="timeline">
+                <div class="exp-item">
+                    <span class="date">commit HEAD -&gt; main</span>
+                    <h3>Ingeniero de infraestructura de redes y datos</h3>
+                    <p>Proyectos en sectores privado y gubernamental, gestión de operaciones de TI, soporte y SOC en entornos de alta disponibilidad.</p>
                 </div>
-                <div class="project-card">
-                    <h3>> SECURE_PORTFOLIO_V2</h3>
-                    <p>Despliegue estático optimizado con animaciones nativas en renderizado por hardware.</p>
+                <div class="exp-item">
+                    <span class="date">~4 años de experiencia acumulada</span>
+                    <h3>Especialización en suite Forcepoint</h3>
+                    <p>Administración de Web Security, DLP, Cloud Security, Endpoint (FONE), CASB, Email Security y NGFW.</p>
                 </div>
-            </section>
-
-            <!-- SECCIÓN JUEGO INTERACTIVO -->
-            <section id="series" class="tab-section">
-                <h2>[ SUBSYSTEM: TERMINAL_GAME ]</h2>
-                <p class="prompt">./play_game</p>
-                <p>Para desbloquear los registros de intereses multimedia, debes descifrar la clave de acceso del sistema.</p>
-                
-                <div class="game-box">
-                    <p><strong>RETO:</strong> Adivina el número secreto de protección (entre 1 y 20).</p>
-                    <p>Intentos restantes: <span id="guesses-left" style="color:red; font-weight:bold;">4</span></p>
-                    <input type="number" id="user-guess" class="game-input" placeholder="Ingresa número" min="1" max="20">
-                    <button onclick="checkHack()" class="game-btn">HACKEAR</button>
-                    <div id="game-log"></div>
+                <div class="exp-item">
+                    <span class="date">background</span>
+                    <h3>Formación técnica en redes y electrónica</h3>
+                    <p>Base en infraestructura de servidores, virtualización y monitoreo de entornos críticos.</p>
                 </div>
-            </section>
-        </main>
-    </div>
+            </div>
+            <p class="term-hint">// Edita fechas y nombres de empresa reales en esta sección antes de publicar.</p>
+        </section>
 
-    <script>
-        // --- NAVEGACIÓN ENTRE PESTAÑAS ---
-        function openTab(tabId) {
-            const sections = document.querySelectorAll('.tab-section');
-            sections.forEach(section => section.classList.remove('active'));
-            
-            const buttons = document.querySelectorAll('.tab-btn');
-            buttons.forEach(btn => btn.classList.remove('active'));
-            
-            document.getElementById(tabId).classList.add('active');
-            event.currentTarget.classList.add('active');
+        <section id="contacto" class="tab-section">
+            <h2>[ SYSTEM_LOG: CONTACTO ]</h2>
+            <p class="prompt">cat contact.cfg</p>
+            <div class="contact-grid">
+                <div class="contact-card">
+                    <span class="label">EMAIL</span>
+                    <a href="mailto:tu-correo@ejemplo.com">tu-correo@ejemplo.com</a>
+                </div>
+                <div class="contact-card">
+                    <span class="label">LINKEDIN</span>
+                    <a href="https://www.linkedin.com/in/tu-usuario" target="_blank" rel="noopener">/in/tu-usuario</a>
+                </div>
+                <div class="contact-card">
+                    <span class="label">GITHUB</span>
+                    <a href="https://github.com/tu-usuario" target="_blank" rel="noopener">/tu-usuario</a>
+                </div>
+                <div class="contact-card">
+                    <span class="label">UBICACIÓN</span>
+                    <span style="color:var(--text-muted); font-size:13px;">México</span>
+                </div>
+            </div>
+        </section>
+
+        <section id="terminal" class="tab-section">
+            <h2>[ SUBSYSTEM: TERMINAL_INTERACTIVA ]</h2>
+            <p class="prompt">sudo ./terminal</p>
+            <p>Escribe <strong>help</strong> para ver los comandos disponibles.</p>
+            <div class="terminal-box">
+                <div id="term-output"></div>
+                <div class="term-input-row">
+                    <span>&gt;</span>
+                    <input type="text" id="term-input" autocomplete="off" placeholder="escribe un comando...">
+                </div>
+            </div>
+            <p class="term-hint">Prueba: help · whoami · certs · stack · projects · contact · sudo ./play_game · clear</p>
+        </section>
+
+    </main>
+</div>
+
+<footer class="site-footer">© <span id="year"></span> Paul Michel González Pérez — CORE://PAUL_GONZALEZ</footer>
+
+<script>
+    // ---------- NAVEGACIÓN ----------
+    function openTab(tabId, btn) {
+        document.querySelectorAll('.tab-section').forEach(s => s.classList.remove('active'));
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+        document.getElementById(tabId).classList.add('active');
+        if (btn) btn.classList.add('active');
+    }
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // ---------- BOOT SEQUENCE ----------
+    const bootLines = [
+        "[BOOT] Initializing kernel...",
+        "[OK]   Loading security modules...",
+        "[OK]   Mounting /dev/paul_gonzalez...",
+        "[OK]   Auth module: OVERRIDE_ACTIVE",
+        "[OK]   Forcepoint suite: LOADED",
+        "[OK]   Network stack: UP",
+        "[OK]   SOC monitoring: ONLINE",
+        "[ ... ] Decrypting profile data",
+        "[DONE] Access granted. Welcome, root."
+    ];
+    const bootContainer = document.getElementById('boot-lines');
+    let bootDelay = 0;
+    bootLines.forEach((line, i) => {
+        const p = document.createElement('p');
+        p.textContent = line;
+        p.style.animationDelay = (i * 0.22) + 's';
+        bootContainer.appendChild(p);
+    });
+    const cursorP = document.createElement('p');
+    cursorP.innerHTML = '<span id="boot-cursor"></span>';
+    cursorP.style.animationDelay = (bootLines.length * 0.22) + 's';
+    bootContainer.appendChild(cursorP);
+
+    setTimeout(() => {
+        document.getElementById('boot-screen').classList.add('hidden');
+        document.getElementById('main-container').classList.add('revealed');
+        startTypingAbout();
+    }, bootLines.length * 220 + 900);
+
+    // ---------- MATRIX EFFECT ----------
+    const canvas = document.getElementById('matrix-bg');
+    const ctx = canvas.getContext('2d');
+    function resizeCanvas() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas();
+
+    const chars = "01ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%&*";
+    const charArr = chars.split("");
+    const fontSize = 14;
+    let columns = canvas.width / fontSize;
+    let rainDrops = Array(Math.floor(columns)).fill(1);
+
+    function drawMatrix() {
+        ctx.fillStyle = 'rgba(5, 10, 5, 0.06)';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        ctx.fillStyle = '#00ff66';
+        ctx.font = fontSize + 'px monospace';
+        for (let i = 0; i < rainDrops.length; i++) {
+            const text = charArr[Math.floor(Math.random() * charArr.length)];
+            ctx.fillText(text, i * fontSize, rainDrops[i] * fontSize);
+            if (rainDrops[i] * fontSize > canvas.height && Math.random() > 0.975) rainDrops[i] = 0;
+            rainDrops[i]++;
         }
+    }
+    setInterval(drawMatrix, 33);
 
-        // --- 1. EFECTO MATRIX ANIMADO ---
-        const canvas = document.getElementById('matrix-bg');
-        const ctx = canvas.getContext('2d');
-
-        function resizeCanvas() {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-        }
-        window.addEventListener('resize', resizeCanvas);
-        resizeCanvas();
-
-        const chars = "01ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%&*";
-        const charArr = chars.split("");
-        const fontSize = 14;
-        const columns = canvas.width / fontSize;
-        const rainDrops = Array(Math.floor(columns)).fill(1);
-
-        function drawMatrix() {
-            ctx.fillStyle = 'rgba(5, 10, 5, 0.06)'; 
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-            ctx.fillStyle = '#00ff66';
-            ctx.font = fontSize + 'px monospace';
-
-            for (let i = 0; i < rainDrops.length; i++) {
-                const text = charArr[Math.floor(Math.random() * charArr.length)];
-                ctx.fillText(text, i * fontSize, rainDrops[i] * fontSize);
-
-                if (rainDrops[i] * fontSize > canvas.height && Math.random() > 0.975) {
-                    rainDrops[i] = 0;
-                }
-                rainDrops[i]++;
+    // ---------- TYPING EFFECT (about) ----------
+    const aboutText = "Desarrollador de entornos informáticos, apasionado por las terminales de comandos avanzadas, la automatización y el diseño de interfaces seguras de alto impacto visual. Especializado en infraestructura de redes, datos y ciberseguridad (suite Forcepoint), con experiencia en sectores privado y gubernamental.";
+    function startTypingAbout() {
+        const el = document.getElementById('typed-about');
+        let i = 0;
+        el.innerHTML = '';
+        const span = document.createElement('span');
+        const cursor = document.createElement('span');
+        cursor.className = 'cursor-typing';
+        cursor.textContent = '\u00A0';
+        el.appendChild(span);
+        el.appendChild(cursor);
+        function tick() {
+            if (i < aboutText.length) {
+                span.textContent += aboutText[i];
+                i++;
+                setTimeout(tick, 14);
             }
         }
-        setInterval(drawMatrix, 33); 
+        tick();
+    }
 
-        // --- 2. LÓGICA DEL MINI JUEGO ---
-        let secretCode = Math.floor(Math.random() * 20) + 1;
-        let attempts = 4;
-        const log = document.getElementById('game-log');
+    // ---------- MINI JUEGO (hackeo) ----------
+    let secretCode = Math.floor(Math.random() * 20) + 1;
+    let attempts = 4;
+    let gameActive = false;
 
-        function checkHack() {
-            const input = document.getElementById('user-guess');
-            const guess = parseInt(input.value);
-            
-            if (isNaN(guess) || guess < 1 || guess > 20) {
-                log.innerHTML += "<p style='color:orange;'>[ERROR] Código fuera de rango (1-20).</p>";
-                return;
-            }
+    function startGameInTerminal() {
+        gameActive = true;
+        attempts = 4;
+        secretCode = Math.floor(Math.random() * 20) + 1;
+        printTerm("[RETO] Adivina el número secreto (1-20). Intentos: " + attempts + ". Escribe un número.");
+    }
 
-            attempts--;
-            document.getElementById('guesses-left').innerText = attempts;
-
-            if (guess === secretCode) {
-                log.innerHTML = "[ACCESO CONCEDIDO] ¡Sistema vulnerado! Intereses: Series Sci-Fi, Ciberseguridad, Linux Avanzado, Hardware Gaming.";
-                document.getElementById('user-guess').disabled = true;
-            } else if (attempts <= 0) {
-                log.innerHTML = `<p style='color:red; font-weight:bold;'>[SISTEMA BLOQUEADO] Clave correcta era ${secretCode}. Reiniciando terminal...</p>`;
-                document.getElementById('user-guess').disabled = true;
-                setTimeout(() => {
-                    secretCode = Math.floor(Math.random() * 20) + 1;
-                    attempts = 4;
-                    document.getElementById('guesses-left').innerText = attempts;
-                    document.getElementById('user-guess').disabled = false;
-                    log.innerHTML = "[SISTEMA REINICIADO] Intenta de nuevo.";
-                }, 4000);
-            } else {
-                const hint = guess < secretCode ? "MAYOR" : "MENOR";
-                log.innerHTML += `<p>> Intento fallido. El código es ${hint} que ${guess}.</p>`;
-            }
-            input.value = "";
-            log.scrollTop = log.scrollHeight;
+    function handleGameGuess(raw) {
+        const guess = parseInt(raw);
+        if (isNaN(guess) || guess < 1 || guess > 20) {
+            printTerm("[ERROR] Código fuera de rango (1-20).");
+            return;
         }
-    </script>
+        attempts--;
+        if (guess === secretCode) {
+            printTerm("[ACCESO CONCEDIDO] ¡Sistema vulnerado! Intereses desbloqueados: Series Sci-Fi, Ciberseguridad, Linux Avanzado, Hardware Gaming.");
+            gameActive = false;
+        } else if (attempts <= 0) {
+            printTerm("[SISTEMA BLOQUEADO] Clave correcta era " + secretCode + ". Reiniciando...");
+            gameActive = false;
+        } else {
+            const hint = guess < secretCode ? "MAYOR" : "MENOR";
+            printTerm("Intento fallido. El código es " + hint + " que " + guess + ". Intentos restantes: " + attempts);
+        }
+    }
+
+    // ---------- TERMINAL INTERACTIVA ----------
+    const termOutput = document.getElementById('term-output');
+    const termInput = document.getElementById('term-input');
+
+    function printTerm(text) {
+        const p = document.createElement('p');
+        p.textContent = text;
+        termOutput.appendChild(p);
+        termOutput.scrollTop = termOutput.scrollHeight;
+    }
+
+    const commands = {
+        help: () => printTerm("Comandos: help, whoami, about, certs, stack, projects, experience, contact, sudo ./play_game, clear"),
+        whoami: () => printTerm("paul_michel_gonzalez_perez — Ingeniero en infraestructura de redes, datos y ciberseguridad."),
+        about: () => { openTab('perfil', document.querySelector('.nav-menu button')); printTerm("[OK] Abriendo about_me.txt en el panel principal..."); },
+        certs: () => { openTab('certificaciones', document.querySelectorAll('.nav-menu button')[1]); printTerm("[OK] 7 certificaciones Forcepoint cargadas."); },
+        stack: () => { openTab('stack', document.querySelectorAll('.nav-menu button')[2]); printTerm("[OK] Stack técnico desplegado."); },
+        projects: () => { openTab('proyectos', document.querySelectorAll('.nav-menu button')[3]); printTerm("[OK] Repositorios listados."); },
+        experience: () => { openTab('experiencia', document.querySelectorAll('.nav-menu button')[4]); printTerm("[OK] Historial de experiencia cargado."); },
+        contact: () => { openTab('contacto', document.querySelectorAll('.nav-menu button')[5]); printTerm("[OK] Datos de contacto disponibles."); },
+        clear: () => { termOutput.innerHTML = ''; }
+    };
+
+    printTerm("Bienvenido a la terminal interactiva. Escribe 'help' para empezar.");
+
+    termInput.addEventListener('keydown', (e) => {
+        if (e.key !== 'Enter') return;
+        const raw = termInput.value.trim();
+        if (raw === '') return;
+        printTerm("> " + raw);
+        termInput.value = '';
+
+        if (gameActive) {
+            handleGameGuess(raw);
+            return;
+        }
+
+        const cmd = raw.toLowerCase();
+        if (cmd === 'sudo ./play_game' || cmd === './play_game' || cmd === 'play_game') {
+            startGameInTerminal();
+        } else if (commands[cmd]) {
+            commands[cmd]();
+        } else {
+            printTerm("bash: " + raw + ": comando no encontrado. Escribe 'help'.");
+        }
+    });
+</script>
 </body>
 </html>
-
