@@ -79,7 +79,6 @@
             min-height: 480px; backdrop-filter: blur(5px);
         }
         
-        /* Control de pestañas limpio mediante clases */
         .tab-section { display: none; }
         .tab-section.active { display: block; }
 
@@ -161,22 +160,19 @@
     </div>
 
     <script>
-        // --- NAVEGACIÓN ENTRE PESTAÑAS (Manejador JS) ---
+        // --- NAVEGACIÓN ENTRE PESTAÑAS ---
         function openTab(tabId) {
-            // Ocultar todas las secciones
             const sections = document.querySelectorAll('.tab-section');
             sections.forEach(section => section.classList.remove('active'));
             
-            // Desactivar todos los botones
             const buttons = document.querySelectorAll('.tab-btn');
             buttons.forEach(btn => btn.classList.remove('active'));
             
-            // Mostrar la pestaña seleccionada y activar su botón
             document.getElementById(tabId).classList.add('active');
             event.currentTarget.classList.add('active');
         }
 
-        // --- 1. CONFIGURACIÓN DEL EFECTO MATRIX ANIMADO ---
+        // --- 1. EFECTO MATRIX ---
         const canvas = document.getElementById('matrix-bg');
         const ctx = canvas.getContext('2d');
 
@@ -212,7 +208,7 @@
         }
         setInterval(drawMatrix, 33); 
 
-        // --- 2. LÓGICA DEL MINI JUEGO DE HACKING ---
+        // --- 2. LÓGICA DEL MINI JUEGO ---
         let secretCode = Math.floor(Math.random() * 20) + 1;
         let attempts = 4;
         const log = document.getElementById('game-log');
@@ -223,12 +219,13 @@
             
             if (isNaN(guess) || guess < 1 || guess > 20) {
                 log.innerHTML += "<p style='color:orange;'>[ERROR] Código fuera de rango (1-20).</p>";
-            return;
-        }
+                return;
+            }
 
-        attempts--;
-        document.getElementById('guesses-left').innerText = attempts;
+            attempts--;
+            document.getElementById('guesses-left').innerText = attempts;
 
+            if (guess === secretCode) {
         if (guess === secretCode) {
             log.innerHTML = "<p style='color:#00ff66; font-weight:bold;'>[ACCESO CONCEDIDO] ¡Sistema vulnerado! Intereses: Series Sci-Fi, Ciberseguridad, Linux Avanzado, Hardware Gaming.</p>";
             document.getElementById('user-guess').disabled = true;
@@ -249,3 +246,4 @@
         input.value = "";
         log.scrollTop = log.scrollHeight;
     }
+
