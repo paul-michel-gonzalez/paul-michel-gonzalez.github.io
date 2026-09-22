@@ -3,42 +3,82 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portafolio de Paul Michel</title>
+    <title>Paul Michel - Portafolio</title>
     <style>
-        body { font-family: sans-serif; margin: 0; padding: 20px; background: #f4f4f9; color: #333; }
-        nav { display: flex; gap: 15px; border-bottom: 2px solid #ccc; padding-bottom: 10px; margin-bottom: 20px; }
-        nav a { text-decoration: none; color: #555; font-weight: bold; padding: 8px 16px; border: 1px solid #ccc; border-radius: 4px; background: #fff; }
-        nav a:hover { background: #eee; }
-        .tab-content { display: none; padding: 20px; background: white; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
-        #perfil { display: block; }
-        .tab-content:target { display: block; }
+        :root {
+            --primary: #0077b5; /* Azul profesional estilo LinkedIn */
+            --bg: #f3f2ef;
+            --text: #191919;
+        }
+        * { box-sizing: border-box; }
+        body { font-family: -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; margin: 0; background: var(--bg); color: var(--text); display: flex; justify-content: center; padding: 40px 20px; }
+        
+        /* Contenedor Principal de Dos Columnas */
+        .container { display: flex; gap: 24px; max-width: 1128px; width: 100%; align-items: flex-start; }
+
+        /* Columna Izquierda: Tarjeta de Perfil Fija */
+        .sidebar { width: 300px; background: white; border-radius: 10px; padding: 24px; box-shadow: 0 0 0 1px rgba(0,0,0,0.08), 0 4px 4px rgba(0,0,0,0.02); text-align: center; position: sticky; top: 40px; }
+        .profile-img { width: 120px; height: 120px; border-radius: 50%; background: #ddd; margin: 0 auto 16px; display: flex; align-items: center; justify-content: center; font-size: 40px; color: #777; border: 4px solid var(--bg); }
+        .sidebar h1 { font-size: 20px; margin: 0 0 4px 0; }
+        .sidebar p { color: #666; font-size: 14px; margin: 0 0 16px 0; }
+        
+        /* Menú de pestañas en la barra lateral */
+        .nav-menu { display: flex; flex-direction: column; gap: 8px; margin-top: 20px; }
+        .nav-menu a { text-decoration: none; color: #000000e6; font-weight: 600; padding: 12px; border-radius: 8px; font-size: 14px; text-align: left; transition: background 0.2s; }
+        .nav-menu a:hover { background: rgba(0,0,0,0.04); color: var(--primary); }
+
+        /* Columna Derecha: Contenido Dinámico */
+        .content { flex: 1; background: white; border-radius: 10px; padding: 40px; box-shadow: 0 0 0 1px rgba(0,0,0,0.08), 0 4px 4px rgba(0,0,0,0.02); min-height: 450px; }
+        
+        /* Sistema de Pestañas con Anclas CSS */
+        .tab-section { display: none; }
+        #perfil { display: block; } /* Mostrar por defecto */
+        .tab-section:target { display: block; }
         :target ~ #perfil { display: none; }
+
+        h2 { border-bottom: 2px solid var(--bg); padding-bottom: 12px; margin-top: 0; font-size: 24px; }
+        .project-card { border: 1px solid #e0e0e0; padding: 16px; border-radius: 8px; margin-top: 16px; }
     </style>
 </head>
 <body>
 
-    <nav>
-        <a href="#perfil">Perfil</a>
-        <a href="#proyectos">Proyectos</a>
-        <a href="#series">Series</a>
-    </nav>
+    <div class="container">
+        <!-- BARRA LATERAL -->
+        <aside class="sidebar">
+            <div class="profile-img">👨‍💻</div>
+            <h1>Paul Michel González</h1>
+            <p>Desarrollador / Profesional Técnico</p>
+            
+            <nav class="nav-menu">
+                <a href="#perfil">👤 Sobre Mí</a>
+                <a href="#proyectos">💼 Proyectos</a>
+                <a href="#series">📺 Series e Intereses</a>
+            </nav>
+        </aside>
 
-    <main>
-        <section id="perfil" class="tab-content">
-            <h2>Sobre Mí</h2>
-            <p>¡Hola! Bienvenido a mi portafolio web alojado en GitHub Pages.</p>
-        </section>
+        <!-- CONTENIDO PRINCIPAL -->
+        <main class="content">
+            <section id="perfil" class="tab-section">
+                <h2>Sobre Mí</h2>
+                <p>¡Hola! Soy Paul Michel González Pérez. Bienvenido a mi portafolio web personal alojado de manera estática y completamente gratuita en GitHub Pages.</p>
+                <p>Aquí comparto mi trayectoria, intereses y los proyectos de software en los que trabajo.</p>
+            </section>
 
-        <section id="proyectos" class="tab-content">
-            <h2>Mis Proyectos</h2>
-            <p>Aquí se mostrarán mis desarrollos y repositorios futuros.</p>
-        </section>
+            <section id="proyectos" class="tab-section">
+                <h2>Mis Proyectos</h2>
+                <p>Explora algunos de los repositorios y aplicaciones en los que he colaborado:</p>
+                <div class="project-card">
+                    <h3>Proyecto Destacado 1</h3>
+                    <p>Descripción corta de lo que hace este proyecto técnico y tecnologías usadas.</p>
+                </div>
+            </section>
 
-        <section id="series" class="tab-content">
-            <h2>Series e Intereses</h2>
-            <p>Sección destinada a mis contenidos favoritos e intereses técnicos.</p>
-        </section>
-    </main>
+            <section id="series" class="tab-section">
+                <h2>Series e Intereses</h2>
+                <p>En esta sección comparto mis pasatiempos, contenidos multimedia preferidos o documentación técnica que sigo de cerca.</p>
+            </section>
+        </main>
+    </div>
 
 </body>
 </html>
