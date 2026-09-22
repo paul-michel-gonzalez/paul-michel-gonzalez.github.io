@@ -4,9 +4,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Paul Michel González Pérez | Cyber Terminal</title>
-<meta name="description" content="Portafolio de Paul Michel González Pérez — Ingeniero en infraestructura de redes, datos y ciberseguridad. Especialista en suite Forcepoint.">
+<meta name="description" content="Paul Michel González Pérez — Especialista en Ciberseguridad Perimetral, Redes y Operaciones SOC. Forcepoint Certificado.">
 <meta property="og:title" content="Paul Michel González Pérez — CORE://PAUL_GONZALEZ">
-<meta property="og:description" content="Ingeniero en infraestructura de redes y datos. Ciberseguridad, Forcepoint, redes empresariales.">
+<meta property="og:description" content="Especialista en Ciberseguridad Perimetral, Redes y Operaciones SOC | Forcepoint Certificado">
 <meta property="og:type" content="website">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%E2%9A%A1%3C/text%3E%3C/svg%3E">
 <style>
@@ -18,193 +18,124 @@
         --accent-glow: rgba(0, 255, 102, 0.2);
         --text-main: #d0ffd0;
         --text-muted: #55946b;
-        --danger: #ff4444;
-        --warn: #ffb703;
     }
-
     * { box-sizing: border-box; }
-
     html { scroll-behavior: smooth; }
-
     body {
         font-family: 'Courier New', Courier, monospace;
-        margin: 0;
-        background-color: var(--bg-main);
-        color: var(--text-main);
-        display: flex;
-        justify-content: center;
-        padding: 40px 20px;
-        overflow-x: hidden;
-        min-height: 100vh;
+        margin: 0; background-color: var(--bg-main); color: var(--text-main);
+        display: flex; justify-content: center; padding: 40px 20px;
+        overflow-x: hidden; min-height: 100vh;
     }
+    #matrix-bg { position: fixed; top:0; left:0; width:100vw; height:100vh; z-index:-1; }
 
-    #matrix-bg {
-        position: fixed;
-        top: 0; left: 0;
-        width: 100vw; height: 100vh;
-        z-index: -1;
+    /* BOOT */
+    #boot-screen { position: fixed; inset:0; background:#000; color:var(--accent); font-size:14px; padding:40px; z-index:999; overflow:hidden; transition:opacity .6s ease; }
+    #boot-lines p { margin:4px 0; opacity:0; animation:fadeInLine .15s forwards; }
+    #boot-cursor { display:inline-block; width:8px; height:14px; background:var(--accent); animation:blink .8s steps(1) infinite; vertical-align:middle; }
+    @keyframes fadeInLine { to { opacity:1; } }
+    @keyframes blink { 50% { opacity:0; } }
+    #boot-screen.hidden { opacity:0; pointer-events:none; }
+    #boot-bar-wrap { margin-top:18px; width:100%; max-width:420px; border:1px solid var(--accent-dim); height:14px; border-radius:3px; overflow:hidden; opacity:0; animation:fadeInLine .3s forwards; animation-delay:.2s; }
+    #boot-bar { height:100%; width:0%; background:linear-gradient(90deg, var(--accent-dim), var(--accent)); transition:width .25s linear; }
+    #boot-pct { font-size:12px; color:var(--text-muted); margin-top:6px; }
+
+    .container { display:flex; gap:24px; max-width:1160px; width:100%; align-items:flex-start; z-index:10; opacity:0; transform:translateY(10px); transition:opacity .7s ease, transform .7s ease; }
+    .container.revealed { opacity:1; transform:translateY(0); }
+
+    .sidebar { width:300px; background:var(--bg-card); border:1px solid var(--accent); border-radius:4px; padding:24px; box-shadow:0 0 20px var(--accent-glow); text-align:center; position:sticky; top:40px; backdrop-filter:blur(5px); flex-shrink:0; }
+    .profile-img { width:110px; height:110px; border-radius:50%; background:#000; margin:0 auto 16px; display:flex; align-items:center; justify-content:center; font-size:38px; border:2px solid var(--accent); box-shadow:0 0 15px var(--accent-dim); animation:pulse 2s infinite alternate; }
+
+    .sidebar h1 { font-size:15px; margin:0 0 4px 0; color:var(--accent); text-shadow:0 0 6px var(--accent); word-break:break-word; animation:glitchFlicker 6s infinite; }
+    @keyframes glitchFlicker {
+        0%, 92%, 100% { text-shadow:0 0 6px var(--accent); }
+        93% { text-shadow:2px 0 #ff2fb0, -2px 0 #00e0ff; }
+        94% { text-shadow:0 0 6px var(--accent); }
+        95% { text-shadow:-2px 0 #ff2fb0, 2px 0 #00e0ff; }
+        96% { text-shadow:0 0 6px var(--accent); }
     }
+    .sidebar p.status { color:var(--text-muted); font-size:11px; margin:0 0 4px 0; }
+    .sidebar .role { color:var(--text-muted); font-size:11px; margin:0 0 16px 0; line-height:1.5; }
 
-    /* ---------- BOOT SCREEN ---------- */
-    #boot-screen {
-        position: fixed;
-        inset: 0;
-        background: #000;
-        color: var(--accent);
-        font-family: 'Courier New', monospace;
-        font-size: 14px;
-        padding: 40px;
-        z-index: 999;
-        overflow: hidden;
-        transition: opacity 0.6s ease;
+    .social-row { display:flex; justify-content:center; gap:10px; margin-bottom:14px; flex-wrap:wrap; }
+    .social-row a { width:34px; height:34px; border:1px solid var(--accent-dim); border-radius:4px; display:flex; align-items:center; justify-content:center; color:var(--accent); text-decoration:none; font-size:14px; transition:all .2s; }
+    .social-row a:hover { border-color:var(--accent); box-shadow:0 0 10px var(--accent-glow); background:rgba(0,255,102,0.08); }
+    .phone-line { font-size:11px; color:var(--text-muted); margin-bottom:14px; }
+
+    .nav-menu { display:flex; flex-direction:column; gap:8px; margin-top:4px; }
+    .nav-menu button { text-decoration:none; color:var(--text-main); font-weight:bold; padding:11px 12px; border-radius:4px; font-size:12.5px; text-align:left; border:1px solid var(--accent-dim); background:rgba(0,0,0,0.4); cursor:pointer; font-family:monospace; transition:all .2s; }
+    .nav-menu button:hover, .nav-menu button.active { background:rgba(0,255,102,0.15); color:#fff; border:1px solid var(--accent); box-shadow:0 0 10px rgba(0,255,102,0.3); }
+
+    .cv-btn { display:block; margin-top:16px; padding:10px; text-align:center; border:1px dashed var(--accent); color:var(--accent); text-decoration:none; font-size:12px; border-radius:4px; font-family:monospace; transition:all .2s; }
+    .cv-btn:hover { background:rgba(0,255,102,0.1); box-shadow:0 0 10px var(--accent-glow); }
+
+    .content { position:relative; flex:1; background:var(--bg-card); border:1px solid var(--accent); border-radius:4px; padding:36px; box-shadow:0 0 20px var(--accent-glow); min-height:520px; backdrop-filter:blur(5px); min-width:0; overflow:hidden; }
+    .content::before {
+        content:''; position:absolute; inset:0; pointer-events:none; z-index:1;
+        background:repeating-linear-gradient(to bottom, rgba(0,255,102,0.025) 0px, rgba(0,255,102,0.025) 1px, transparent 1px, transparent 3px);
+        animation:scanShift 6s linear infinite;
     }
-    #boot-lines p { margin: 4px 0; opacity: 0; animation: fadeInLine 0.15s forwards; }
-    #boot-cursor { display: inline-block; width: 8px; height: 14px; background: var(--accent); animation: blink 0.8s steps(1) infinite; vertical-align: middle; }
-    @keyframes fadeInLine { to { opacity: 1; } }
-    @keyframes blink { 50% { opacity: 0; } }
-    #boot-screen.hidden { opacity: 0; pointer-events: none; }
+    @keyframes scanShift { 0% { background-position-y:0; } 100% { background-position-y:120px; } }
+    .content > * { position:relative; z-index:2; }
 
-    .container {
-        display: flex; gap: 24px; max-width: 1128px; width: 100%;
-        align-items: flex-start; z-index: 10;
-        opacity: 0; transform: translateY(10px);
-        transition: opacity 0.7s ease, transform 0.7s ease;
-    }
-    .container.revealed { opacity: 1; transform: translateY(0); }
+    .tab-section { display:none; }
+    .tab-section.active { display:block; animation:fadeIn .35s ease; }
+    @keyframes fadeIn { from { opacity:0; transform:translateY(6px);} to { opacity:1; transform:translateY(0);} }
 
-    .sidebar {
-        width: 300px;
-        background: var(--bg-card);
-        border: 1px solid var(--accent);
-        border-radius: 4px;
-        padding: 24px;
-        box-shadow: 0 0 20px var(--accent-glow);
-        text-align: center;
-        position: sticky;
-        top: 40px;
-        backdrop-filter: blur(5px);
-        flex-shrink: 0;
-    }
+    h2 { border-bottom:1px solid var(--accent); padding-bottom:12px; margin-top:0; font-size:17px; color:var(--accent); text-shadow:0 0 5px var(--accent); letter-spacing:.5px; }
 
-    .profile-img {
-        width: 110px; height: 110px; border-radius: 50%; background: #000;
-        margin: 0 auto 16px; display: flex; align-items: center; justify-content: center;
-        font-size: 38px; border: 2px solid var(--accent);
-        box-shadow: 0 0 15px var(--accent-dim); animation: pulse 2s infinite alternate;
-    }
+    #typed-about { min-height:60px; }
+    .cursor-typing { display:inline-block; width:8px; background:var(--accent); animation:blink .8s steps(1) infinite; margin-left:2px; }
 
-    .sidebar h1 { font-size: 15px; margin: 0 0 4px 0; color: var(--accent); text-shadow: 0 0 5px var(--accent); word-break: break-word; }
-    .sidebar p.status { color: var(--text-muted); font-size: 11px; margin: 0 0 4px 0; }
-    .sidebar .role { color: var(--text-muted); font-size: 11px; margin: 0 0 16px 0; line-height: 1.5; }
+    /* Stats */
+    .stats-grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(130px,1fr)); gap:12px; margin-top:22px; }
+    .stat-card { border:1px solid var(--accent-dim); border-radius:4px; padding:16px 10px; text-align:center; background:rgba(0,0,0,0.4); }
+    .stat-num { font-size:26px; font-weight:bold; color:var(--accent); text-shadow:0 0 8px var(--accent); }
+    .stat-label { font-size:10.5px; color:var(--text-muted); margin-top:4px; letter-spacing:.3px; }
 
-    .social-row { display: flex; justify-content: center; gap: 10px; margin-bottom: 18px; }
-    .social-row a {
-        width: 34px; height: 34px; border: 1px solid var(--accent-dim); border-radius: 4px;
-        display: flex; align-items: center; justify-content: center; color: var(--accent);
-        text-decoration: none; font-size: 15px; transition: all 0.2s;
-    }
-    .social-row a:hover { border-color: var(--accent); box-shadow: 0 0 10px var(--accent-glow); background: rgba(0,255,102,0.08); }
+    .project-card, .exp-item { border:1px dashed var(--accent); padding:16px; border-radius:4px; margin-top:16px; background:rgba(0,0,0,0.5); }
+    .project-card h3, .exp-item h3 { margin-top:0; color:var(--accent); font-size:14.5px; }
+    .project-card .tags { margin-top:10px; display:flex; flex-wrap:wrap; gap:6px; }
+    .project-card .tags span { border:1px solid var(--accent-dim); color:var(--text-muted); font-size:10.5px; padding:3px 7px; border-radius:3px; }
 
-    .nav-menu { display: flex; flex-direction: column; gap: 8px; margin-top: 4px; }
-    .nav-menu button {
-        text-decoration: none; color: var(--text-main); font-weight: bold;
-        padding: 11px 12px; border-radius: 4px; font-size: 12.5px; text-align: left;
-        border: 1px solid var(--accent-dim); background: rgba(0,0,0,0.4);
-        cursor: pointer; font-family: monospace; transition: all 0.2s;
-    }
-    .nav-menu button:hover, .nav-menu button.active {
-        background: rgba(0, 255, 102, 0.15); color: #fff;
-        border: 1px solid var(--accent); box-shadow: 0 0 10px rgba(0,255,102,0.3);
-    }
+    .cert-grid, .stack-grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(165px,1fr)); gap:12px; margin-top:16px; }
+    .cert-item, .stack-item { border:1px solid var(--accent-dim); border-radius:4px; padding:12px; background:rgba(0,0,0,0.45); font-size:12px; display:flex; align-items:center; gap:10px; transition:all .2s; }
+    .cert-item:hover, .stack-item:hover { border-color:var(--accent); box-shadow:0 0 10px var(--accent-glow); transform:translateY(-2px); }
+    .cert-item .ok { color:var(--accent); font-weight:bold; flex-shrink:0; }
+    .logo-badge { width:34px; height:34px; border-radius:6px; display:flex; align-items:center; justify-content:center; font-size:10.5px; font-weight:800; flex-shrink:0; border:1.5px solid; }
 
-    .cv-btn {
-        display: block; margin-top: 16px; padding: 10px; text-align: center;
-        border: 1px dashed var(--accent); color: var(--accent); text-decoration: none;
-        font-size: 12px; border-radius: 4px; font-family: monospace; transition: all 0.2s;
-    }
-    .cv-btn:hover { background: rgba(0,255,102,0.1); box-shadow: 0 0 10px var(--accent-glow); }
+    .timeline { position:relative; margin-top:20px; padding-left:20px; border-left:2px solid var(--accent-dim); }
+    .timeline .exp-item { margin-left:10px; position:relative; }
+    .timeline .exp-item::before { content:''; position:absolute; left:-25px; top:18px; width:10px; height:10px; background:var(--accent); border-radius:50%; box-shadow:0 0 8px var(--accent); }
+    .exp-item .date { color:var(--text-muted); font-size:11px; display:block; margin-bottom:4px; }
+    .exp-item .role-company { font-size:11px; color:var(--text-muted); margin:2px 0 8px; }
+    .exp-item ul { margin:6px 0 0; padding-left:18px; font-size:12.5px; }
+    .exp-item ul li { margin-bottom:4px; }
+    .exp-item.edu { border-style:solid; border-color:var(--accent-dim); }
 
-    .content {
-        flex: 1; background: var(--bg-card); border: 1px solid var(--accent);
-        border-radius: 4px; padding: 36px; box-shadow: 0 0 20px var(--accent-glow);
-        min-height: 520px; backdrop-filter: blur(5px); min-width: 0;
-    }
+    .contact-grid { display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-top:16px; }
+    .contact-card { border:1px solid var(--accent-dim); border-radius:4px; padding:16px; background:rgba(0,0,0,0.45); text-align:center; }
+    .contact-card a { color:var(--accent); text-decoration:none; font-size:12.5px; word-break:break-all; }
+    .contact-card .label { color:var(--text-muted); font-size:11px; display:block; margin-bottom:6px; }
 
-    .tab-section { display: none; }
-    .tab-section.active { display: block; animation: fadeIn 0.35s ease; }
-    @keyframes fadeIn { from { opacity: 0; transform: translateY(6px);} to { opacity: 1; transform: translateY(0);} }
+    .terminal-box { background:#000; border:1px solid var(--accent); border-radius:4px; margin-top:18px; overflow:hidden; }
+    #term-output { height:260px; overflow-y:auto; padding:14px; font-size:12.5px; color:var(--text-main); }
+    #term-output p { margin:3px 0; white-space:pre-wrap; word-break:break-word; }
+    .term-input-row { display:flex; align-items:center; border-top:1px solid var(--accent-dim); padding:8px 12px; background:rgba(0,255,102,0.03); }
+    .term-input-row span { color:var(--accent); margin-right:6px; font-size:13px; }
+    #term-input { flex:1; background:transparent; border:none; outline:none; color:var(--accent); font-family:monospace; font-size:13px; }
+    .term-hint { color:var(--text-muted); font-size:11px; margin-top:8px; }
 
-    h2 { border-bottom: 1px solid var(--accent); padding-bottom: 12px; margin-top: 0; font-size: 17px; color: var(--accent); text-shadow: 0 0 5px var(--accent); letter-spacing: 0.5px; }
+    @keyframes pulse { 0% { box-shadow:0 0 5px var(--accent-dim); } 100% { box-shadow:0 0 20px var(--accent); } }
+    .prompt::before { content:"root@paul-pc:~$ "; color:var(--accent); }
+    footer.site-footer { text-align:center; color:var(--text-muted); font-size:11px; margin-top:18px; }
 
-    #typed-about { min-height: 60px; }
-    .cursor-typing { display: inline-block; width: 8px; background: var(--accent); animation: blink 0.8s steps(1) infinite; margin-left: 2px; }
-
-    .project-card, .exp-item {
-        border: 1px dashed var(--accent); padding: 16px; border-radius: 4px;
-        margin-top: 16px; background: rgba(0,0,0,0.5);
-    }
-    .project-card h3, .exp-item h3 { margin-top: 0; color: var(--accent); font-size: 14.5px; }
-    .project-card .tags { margin-top: 10px; display: flex; flex-wrap: wrap; gap: 6px; }
-    .project-card .tags span { border: 1px solid var(--accent-dim); color: var(--text-muted); font-size: 10.5px; padding: 3px 7px; border-radius: 3px; }
-
-    /* Certs grid */
-    .cert-grid, .stack-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 12px; margin-top: 16px; }
-    .cert-item, .stack-item {
-        border: 1px solid var(--accent-dim); border-radius: 4px; padding: 12px;
-        background: rgba(0,0,0,0.45); font-size: 12px; display: flex; align-items: center; gap: 10px;
-        transition: all 0.2s;
-    }
-    .cert-item:hover, .stack-item:hover { border-color: var(--accent); box-shadow: 0 0 8px var(--accent-glow); transform: translateY(-2px); }
-    .cert-item .ok { color: var(--accent); font-weight: bold; }
-    .stack-badge {
-        width: 30px; height: 30px; border: 1px solid var(--accent); border-radius: 4px;
-        display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: bold;
-        color: var(--accent); flex-shrink: 0;
-    }
-
-    /* Timeline */
-    .timeline { position: relative; margin-top: 20px; padding-left: 20px; border-left: 2px solid var(--accent-dim); }
-    .timeline .exp-item { margin-left: 10px; position: relative; }
-    .timeline .exp-item::before {
-        content: ''; position: absolute; left: -25px; top: 18px; width: 10px; height: 10px;
-        background: var(--accent); border-radius: 50%; box-shadow: 0 0 8px var(--accent);
-    }
-    .exp-item .date { color: var(--text-muted); font-size: 11px; display: block; margin-bottom: 4px; }
-
-    /* Contact */
-    .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 16px; }
-    .contact-card { border: 1px solid var(--accent-dim); border-radius: 4px; padding: 16px; background: rgba(0,0,0,0.45); text-align: center; }
-    .contact-card a { color: var(--accent); text-decoration: none; font-size: 13px; word-break: break-all; }
-    .contact-card .label { color: var(--text-muted); font-size: 11px; display: block; margin-bottom: 6px; }
-
-    /* Terminal */
-    .terminal-box { background: #000; border: 1px solid var(--accent); border-radius: 4px; margin-top: 18px; overflow: hidden; }
-    #term-output { height: 260px; overflow-y: auto; padding: 14px; font-size: 12.5px; color: var(--text-main); }
-    #term-output p { margin: 3px 0; white-space: pre-wrap; word-break: break-word; }
-    .term-input-row { display: flex; align-items: center; border-top: 1px solid var(--accent-dim); padding: 8px 12px; background: rgba(0,255,102,0.03); }
-    .term-input-row span { color: var(--accent); margin-right: 6px; font-size: 13px; }
-    #term-input {
-        flex: 1; background: transparent; border: none; outline: none; color: var(--accent);
-        font-family: monospace; font-size: 13px;
-    }
-    .term-hint { color: var(--text-muted); font-size: 11px; margin-top: 8px; }
-
-    .game-input { background: #000; border: 1px solid var(--accent); color: var(--accent); padding: 8px; font-family: monospace; width: 140px; }
-    .game-btn { background: var(--accent-dim); border: 1px solid var(--accent); color: white; padding: 8px 16px; cursor: pointer; font-family: monospace; }
-    .game-btn:hover { background: var(--accent); color: #000; font-weight: bold; }
-
-    @keyframes pulse { 0% { box-shadow: 0 0 5px var(--accent-dim); } 100% { box-shadow: 0 0 20px var(--accent); } }
-    .prompt::before { content: "root@paul-pc:~$ "; color: var(--accent); }
-
-    footer.site-footer { text-align: center; color: var(--text-muted); font-size: 11px; margin-top: 18px; }
-
-    /* Responsive */
-    @media (max-width: 800px) {
-        body { padding: 16px 10px; }
-        .container { flex-direction: column; }
-        .sidebar { width: 100%; position: relative; top: 0; }
-        .content { padding: 22px; }
-        .contact-grid { grid-template-columns: 1fr; }
+    @media (max-width:800px) {
+        body { padding:16px 10px; }
+        .container { flex-direction:column; }
+        .sidebar { width:100%; position:relative; top:0; }
+        .content { padding:22px; }
+        .contact-grid { grid-template-columns:1fr; }
     }
 </style>
 </head>
@@ -212,39 +143,39 @@
 
 <canvas id="matrix-bg" aria-hidden="true"></canvas>
 
-<!-- BOOT SCREEN -->
 <div id="boot-screen">
     <div id="boot-lines"></div>
+    <div id="boot-bar-wrap"><div id="boot-bar"></div></div>
+    <div id="boot-pct">0%</div>
 </div>
 
 <div class="container" id="main-container">
-    <!-- SIDEBAR -->
     <aside class="sidebar">
         <div class="profile-img">⚡</div>
         <h1>CORE://PAUL_GONZALEZ</h1>
         <p class="status">STATUS: OVERRIDE_ACTIVE</p>
-        <p class="role">Ingeniero en infraestructura de redes, datos y ciberseguridad</p>
+        <p class="role">Especialista en Ciberseguridad Perimetral, Redes y Operaciones SOC | Forcepoint Certificado</p>
 
         <div class="social-row">
-            <a href="mailto:tu-correo@ejemplo.com" title="Email" aria-label="Email">✉</a>
-            <a href="https://www.linkedin.com/in/tu-usuario" target="_blank" rel="noopener" title="LinkedIn" aria-label="LinkedIn">in</a>
-            <a href="https://github.com/tu-usuario" target="_blank" rel="noopener" title="GitHub" aria-label="GitHub">⌥</a>
+            <a href="mailto:pablogonzalez8013@gmail.com" title="Email" aria-label="Email">✉</a>
+            <a href="https://www.linkedin.com/in/paul-michel-gonz%C3%A1lez-p%C3%A9rez-0196a1217" target="_blank" rel="noopener" title="LinkedIn" aria-label="LinkedIn">in</a>
+            <a href="tel:+525536294123" title="Teléfono" aria-label="Teléfono">☎</a>
         </div>
+        <div class="phone-line">CDMX, México · +52 (55) 3629-4123</div>
 
         <nav class="nav-menu">
             <button class="tab-btn active" onclick="openTab('perfil', this)">> cat about_me.txt</button>
             <button class="tab-btn" onclick="openTab('certificaciones', this)">> cat certs.log</button>
             <button class="tab-btn" onclick="openTab('stack', this)">> ls -la stack/</button>
-            <button class="tab-btn" onclick="openTab('proyectos', this)">> ls repositories/</button>
             <button class="tab-btn" onclick="openTab('experiencia', this)">> git log --oneline</button>
+            <button class="tab-btn" onclick="openTab('logros', this)">> cat achievements.log</button>
             <button class="tab-btn" onclick="openTab('contacto', this)">> cat contact.cfg</button>
             <button class="tab-btn" onclick="openTab('terminal', this)">> sudo ./terminal</button>
         </nav>
 
-        <a href="tu-cv.pdf" download class="cv-btn">⬇ wget cv_paul.pdf</a>
+        <a href="cv_paul_michel_gonzalez_perez.pdf" download class="cv-btn">⬇ wget cv_paul.pdf</a>
     </aside>
 
-    <!-- CONTENIDO -->
     <main class="content">
 
         <section id="perfil" class="tab-section active">
@@ -252,62 +183,62 @@
             <p class="prompt">cat about_me.txt</p>
             <p>Cargando registros de <strong>Paul Michel González Pérez</strong>...</p>
             <p id="typed-about"></p>
+            <div class="stats-grid" id="stats-grid">
+                <div class="stat-card"><div class="stat-num" data-target="3" data-suffix="+">0</div><div class="stat-label">AÑOS DE EXPERIENCIA</div></div>
+                <div class="stat-card"><div class="stat-num" data-target="10" data-suffix="+">0</div><div class="stat-label">CERTIFICACIONES</div></div>
+                <div class="stat-card"><div class="stat-num" data-target="900" data-suffix="+">0</div><div class="stat-label">ACTIVOS MONITOREADOS</div></div>
+                <div class="stat-card"><div class="stat-num" data-target="10" data-suffix=" min">0</div><div class="stat-label">SLA DE RESPUESTA</div></div>
+            </div>
         </section>
 
         <section id="certificaciones" class="tab-section">
             <h2>[ SYSTEM_LOG: CERTIFICACIONES ]</h2>
             <p class="prompt">cat certs.log</p>
             <div class="cert-grid">
-                <div class="cert-item"><span class="ok">[OK]</span> Forcepoint Web Security / Proxy</div>
-                <div class="cert-item"><span class="ok">[OK]</span> Forcepoint DLP</div>
-                <div class="cert-item"><span class="ok">[OK]</span> Forcepoint Cloud Security</div>
-                <div class="cert-item"><span class="ok">[OK]</span> Forcepoint Endpoint (FONE)</div>
-                <div class="cert-item"><span class="ok">[OK]</span> Forcepoint CASB</div>
-                <div class="cert-item"><span class="ok">[OK]</span> Forcepoint Email Security</div>
-                <div class="cert-item"><span class="ok">[OK]</span> Forcepoint NGFW</div>
+                <div class="cert-item"><span class="ok">[OK]</span> Forcepoint Certified Web Security Administrator</div>
+                <div class="cert-item"><span class="ok">[OK]</span> Forcepoint Certified DLP Administrator</div>
+                <div class="cert-item"><span class="ok">[OK]</span> Forcepoint Certified ONE Administrator</div>
+                <div class="cert-item"><span class="ok">[OK]</span> Forcepoint Certified NGFW Administrator</div>
+                <div class="cert-item"><span class="ok">[OK]</span> Forcepoint DSPM (Data Security Posture Mgmt)</div>
+                <div class="cert-item"><span class="ok">[OK]</span> Fortinet Certified Fundamentals (FCF)</div>
+                <div class="cert-item"><span class="ok">[OK]</span> Fortinet Certified Associate (FCA)</div>
+                <div class="cert-item"><span class="ok">[OK]</span> Fortinet NSE 1-3</div>
+                <div class="cert-item"><span class="ok">[OK]</span> Sophos Firewall v18.5 – Engineer</div>
+                <div class="cert-item"><span class="ok">[OK]</span> Linux Unhatched</div>
+                <div class="cert-item"><span class="ok">[OK]</span> Qualys VMDR</div>
             </div>
+            <p class="term-hint">// Cursos: CCNA 200-301 · Ciberseguridad Avanzada Cisco · Hacking Ético · Tenable Endpoint · Zscaler Cloud</p>
         </section>
 
         <section id="stack" class="tab-section">
             <h2>[ SYSTEM_LOG: STACK TÉCNICO ]</h2>
             <p class="prompt">ls -la stack/</p>
             <div class="stack-grid">
-                <div class="stack-item"><span class="stack-badge">FP</span> Forcepoint</div>
-                <div class="stack-item"><span class="stack-badge">FTN</span> Fortinet</div>
-                <div class="stack-item"><span class="stack-badge">PA</span> Palo Alto</div>
-                <div class="stack-item"><span class="stack-badge">CS</span> Cisco</div>
-                <div class="stack-item"><span class="stack-badge">ZS</span> Zscaler</div>
-                <div class="stack-item"><span class="stack-badge">AWS</span> AWS EC2</div>
-                <div class="stack-item"><span class="stack-badge">AZ</span> Azure</div>
-                <div class="stack-item"><span class="stack-badge">GCP</span> GCP</div>
-                <div class="stack-item"><span class="stack-badge">OCI</span> Oracle Cloud</div>
-                <div class="stack-item"><span class="stack-badge">VM</span> VMware / ESXi</div>
-                <div class="stack-item"><span class="stack-badge">LX</span> Linux Server</div>
-                <div class="stack-item"><span class="stack-badge">WS</span> Windows Server</div>
-                <div class="stack-item"><span class="stack-badge">ZBX</span> Zabbix</div>
-                <div class="stack-item"><span class="stack-badge">NAG</span> Nagios</div>
-                <div class="stack-item"><span class="stack-badge">PY</span> Python</div>
-                <div class="stack-item"><span class="stack-badge">KL</span> Kali Linux</div>
-            </div>
-        </section>
-
-        <section id="proyectos" class="tab-section">
-            <h2>[ SYSTEM_LOG: REPOSITORIOS ]</h2>
-            <p class="prompt">ls -la repositories/</p>
-            <div class="project-card">
-                <h3>> AD_DNS_DHCP_HARDENED</h3>
-                <p>Despliegue de Active Directory, DNS, DHCP y autenticación 2FA (Google Authenticator) sobre Ubuntu Server 24.04, con NTPsec para sincronización segura.</p>
-                <div class="tags"><span>Ubuntu Server</span><span>Samba AD</span><span>2FA</span><span>NTPsec</span></div>
-            </div>
-            <div class="project-card">
-                <h3>> WINDOWS_INFRA_STACK</h3>
-                <p>Implementación de Active Directory, DNS, DHCP e IIS en entornos Windows Server (2019–2025) para infraestructura empresarial.</p>
-                <div class="tags"><span>Windows Server</span><span>AD DS</span><span>IIS</span></div>
-            </div>
-            <div class="project-card">
-                <h3>> AI_SECURITY_AUDIT</h3>
-                <p>Auditorías de seguridad y optimización de código usando Kali Linux junto con modelos de IA (Llama 3.2) para acelerar el análisis.</p>
-                <div class="tags"><span>Kali Linux</span><span>Llama 3.2</span><span>Auditoría</span></div>
+                <div class="stack-item"><span class="logo-badge" style="color:#e8752c;border-color:#e8752c;">FP</span>Forcepoint DLP/NGFW</div>
+                <div class="stack-item"><span class="logo-badge" style="color:#ee3124;border-color:#ee3124;">FTN</span>Fortinet FortiGate</div>
+                <div class="stack-item"><span class="logo-badge" style="color:#fa582d;border-color:#fa582d;">PA</span>Palo Alto Panorama</div>
+                <div class="stack-item"><span class="logo-badge" style="color:#049fd9;border-color:#049fd9;">CS</span>Cisco ASA/FTD</div>
+                <div class="stack-item"><span class="logo-badge" style="color:#049fd9;border-color:#049fd9;">SW</span>Cisco Stealthwatch</div>
+                <div class="stack-item"><span class="logo-badge" style="color:#049fd9;border-color:#049fd9;">UMB</span>Cisco Umbrella / FMC</div>
+                <div class="stack-item"><span class="logo-badge" style="color:#1a73e8;border-color:#1a73e8;">SPH</span>Sophos Firewall</div>
+                <div class="stack-item"><span class="logo-badge" style="color:#0068b5;border-color:#0068b5;">ZS</span>Zscaler Cloud</div>
+                <div class="stack-item"><span class="logo-badge" style="color:#ff9900;border-color:#ff9900;">AWS</span>AWS EC2</div>
+                <div class="stack-item"><span class="logo-badge" style="color:#0078d4;border-color:#0078d4;">AZ</span>Azure</div>
+                <div class="stack-item"><span class="logo-badge" style="color:#4285f4;border-color:#4285f4;">GCP</span>Google Cloud</div>
+                <div class="stack-item"><span class="logo-badge" style="color:#f80000;border-color:#f80000;">OCI</span>Oracle Cloud</div>
+                <div class="stack-item"><span class="logo-badge" style="color:#607078;border-color:#607078;">VM</span>VMware ESXi/vCenter</div>
+                <div class="stack-item"><span class="logo-badge" style="color:#ee0000;border-color:#ee0000;">RH</span>RHEL / CentOS / Alma / Rocky</div>
+                <div class="stack-item"><span class="logo-badge" style="color:#e95420;border-color:#e95420;">UB</span>Ubuntu Server</div>
+                <div class="stack-item"><span class="logo-badge" style="color:#00adef;border-color:#00adef;">WS</span>Windows Server 2012–2025</div>
+                <div class="stack-item"><span class="logo-badge" style="color:#4479a1;border-color:#4479a1;">SQL</span>SQL / MySQL</div>
+                <div class="stack-item"><span class="logo-badge" style="color:#4caf50;border-color:#4caf50;">LR</span>LogRhythm SIEM</div>
+                <div class="stack-item"><span class="logo-badge" style="color:#7b3fe4;border-color:#7b3fe4;">EXB</span>Exabeam</div>
+                <div class="stack-item"><span class="logo-badge" style="color:#dc382d;border-color:#dc382d;">ZBX</span>Zabbix</div>
+                <div class="stack-item"><span class="logo-badge" style="color:#7cd127;border-color:#7cd127;">PRTG</span>PRTG</div>
+                <div class="stack-item"><span class="logo-badge" style="color:#e5e5e5;border-color:#999;">NAG</span>Nagios</div>
+                <div class="stack-item"><span class="logo-badge" style="color:#e5233d;border-color:#e5233d;">JIRA</span>Jira / Remedy / Autotask</div>
+                <div class="stack-item"><span class="logo-badge" style="color:#e0161f;border-color:#e0161f;">QLS</span>Qualys VMDR</div>
+                <div class="stack-item"><span class="logo-badge" style="color:#0f2942;border-color:#0f2942;">TEN</span>Tenable</div>
             </div>
         </section>
 
@@ -316,22 +247,98 @@
             <p class="prompt">git log --oneline --graph</p>
             <div class="timeline">
                 <div class="exp-item">
-                    <span class="date">commit HEAD -&gt; main</span>
-                    <h3>Ingeniero de infraestructura de redes y datos</h3>
-                    <p>Proyectos en sectores privado y gubernamental, gestión de operaciones de TI, soporte y SOC en entornos de alta disponibilidad.</p>
+                    <span class="date">Agosto 2025 – Actualidad</span>
+                    <h3>Consultor Independiente de Ciberseguridad y Redes</h3>
+                    <span class="role-company">CDMX, México</span>
+                    <ul>
+                        <li>Diseño y despliegue de laboratorios virtuales avanzados en entornos aislados.</li>
+                        <li>Consultoría técnica y entrenamiento especializado orientado a certificaciones Forcepoint.</li>
+                    </ul>
                 </div>
                 <div class="exp-item">
-                    <span class="date">~4 años de experiencia acumulada</span>
-                    <h3>Especialización en suite Forcepoint</h3>
-                    <p>Administración de Web Security, DLP, Cloud Security, Endpoint (FONE), CASB, Email Security y NGFW.</p>
+                    <span class="date">Abril 2025 – Agosto 2025</span>
+                    <h3>Ingeniero Analista II</h3>
+                    <span class="role-company">Scitum – Telmex, CDMX</span>
+                    <ul>
+                        <li>+50% de disponibilidad al optimizar clústeres Content Gateway (Forcepoint V10000/V20000).</li>
+                        <li>Soporte a infraestructura perimetral de la FGR, enlaces de 100 Mbps a 10 Gbps.</li>
+                        <li>Gestión de VPN (GlobalProtect, AnyConnect) y coordinación 24x7 del SOC Clúster 8 (CJF, ANAM).</li>
+                    </ul>
                 </div>
                 <div class="exp-item">
-                    <span class="date">background</span>
-                    <h3>Formación técnica en redes y electrónica</h3>
-                    <p>Base en infraestructura de servidores, virtualización y monitoreo de entornos críticos.</p>
+                    <span class="date">Agosto 2024 – Abril 2025</span>
+                    <h3>Ingeniero de Operaciones</h3>
+                    <span class="role-company">Abba Networks, CDMX</span>
+                    <ul>
+                        <li>100% de uptime mediante respaldos automáticos bisemanales de red crítica.</li>
+                        <li>Forcepoint Web Security, DLP y Email Security para protección de datos transaccionales.</li>
+                        <li>Protección de tráfico masivo nacional junto a Telcel (Corporativo Polanco + 9 regiones).</li>
+                        <li>Mentoría técnica a 5 ingenieros/becarios en Go4Labs y ESXi.</li>
+                    </ul>
+                </div>
+                <div class="exp-item">
+                    <span class="date">Diciembre 2023 – Marzo 2024</span>
+                    <h3>Ingeniero de Soporte en Sitio</h3>
+                    <span class="role-company">Sictel, CDMX</span>
+                    <ul>
+                        <li>Gestión de Data Center AEFCM: 12 servidores HPE, 100+ VMs en vCenter, 130 TB de storage.</li>
+                        <li>Fortigate v7.2/Fortimanager y switches Core Cisco 3850/4500/9000, Extreme Networks.</li>
+                        <li>Soporte N2/N3 en INR y Secretaría de Salud.</li>
+                    </ul>
+                </div>
+                <div class="exp-item">
+                    <span class="date">Julio 2023 – Agosto 2023</span>
+                    <h3>Ingeniero SOC N1</h3>
+                    <span class="role-company">Nordstern Technologies, CDMX</span>
+                    <ul>
+                        <li>&lt;15 min de tiempo de respuesta ante alertas críticas (LogRhythm, Exabeam, IDS/EDR).</li>
+                        <li>Monitoreo 24/7 de 900+ activos (SHCP, Grupo Modelo, Femsa).</li>
+                        <li>SLA &lt;10 min en plataformas cloud (Alert Logic); reportes con Stealthwatch, Umbrella y FMC.</li>
+                    </ul>
+                </div>
+                <div class="exp-item">
+                    <span class="date">Enero 2022 – Julio 2023</span>
+                    <h3>Ingeniero de Soporte y Ciberseguridad</h3>
+                    <span class="role-company">ITLatino / Baluit, CDMX</span>
+                    <ul>
+                        <li>POCs del portafolio Forcepoint y Sophos ante directivos de gobierno y corporativo privado.</li>
+                        <li>Migración multi-cloud a AWS EC2 integrada con Forcepoint SMC.</li>
+                        <li>Implementación de infraestructura de TI interna y capacitación en ciberseguridad perimetral.</li>
+                    </ul>
+                </div>
+                <div class="exp-item edu">
+                    <span class="date">2016 – 2021</span>
+                    <h3>🎓 Ingeniería en Comunicaciones y Electrónica</h3>
+                    <span class="role-company">Instituto Politécnico Nacional (IPN) – ESIME Zacatenco</span>
+                    <p style="margin:6px 0 0; font-size:12px; color:var(--text-muted);">Cédula Profesional: 13673699 · Inglés técnico intermedio</p>
                 </div>
             </div>
-            <p class="term-hint">// Edita fechas y nombres de empresa reales en esta sección antes de publicar.</p>
+        </section>
+
+        <section id="logros" class="tab-section">
+            <h2>[ SYSTEM_LOG: LOGROS Y MÉTRICAS ]</h2>
+            <p class="prompt">cat achievements.log</p>
+            <div class="stats-grid">
+                <div class="stat-card"><div class="stat-num" data-target="50" data-suffix="%">0</div><div class="stat-label">+DISPONIBILIDAD CONTENT GATEWAY</div></div>
+                <div class="stat-card"><div class="stat-num" data-target="100" data-suffix="%">0</div><div class="stat-label">UPTIME EN RESPALDOS AUTOMÁTICOS</div></div>
+                <div class="stat-card"><div class="stat-num" data-target="15" data-suffix=" min">0</div><div class="stat-label">TIEMPO DE RESPUESTA SOC</div></div>
+                <div class="stat-card"><div class="stat-num" data-target="130" data-suffix=" TB">0</div><div class="stat-label">STORAGE ADMINISTRADO</div></div>
+            </div>
+            <div class="project-card">
+                <h3>> CONTENT_GATEWAY_OPTIMIZATION</h3>
+                <p>Reajuste de clústeres Forcepoint (V10000/V20000) que incrementó un 50% la disponibilidad de navegación corporativa.</p>
+                <div class="tags"><span>Forcepoint</span><span>Content Gateway</span><span>Scitum-Telmex</span></div>
+            </div>
+            <div class="project-card">
+                <h3>> MULTI_CLOUD_MIGRATION</h3>
+                <p>Planificación y migración de arquitecturas de red hacia AWS EC2, integradas mediante Forcepoint Security Management Center.</p>
+                <div class="tags"><span>AWS EC2</span><span>Forcepoint SMC</span><span>ITLatino/Baluit</span></div>
+            </div>
+            <div class="project-card">
+                <h3>> DATACENTER_AEFCM</h3>
+                <p>Administración de 12 servidores HPE, 100+ VMs en VMware vCenter y 130 TB de almacenamiento para infraestructura crítica de salud.</p>
+                <div class="tags"><span>VMware vCenter</span><span>HPE</span><span>Sictel</span></div>
+            </div>
         </section>
 
         <section id="contacto" class="tab-section">
@@ -340,19 +347,19 @@
             <div class="contact-grid">
                 <div class="contact-card">
                     <span class="label">EMAIL</span>
-                    <a href="mailto:tu-correo@ejemplo.com">tu-correo@ejemplo.com</a>
+                    <a href="mailto:pablogonzalez8013@gmail.com">pablogonzalez8013@gmail.com</a>
                 </div>
                 <div class="contact-card">
                     <span class="label">LINKEDIN</span>
-                    <a href="https://www.linkedin.com/in/tu-usuario" target="_blank" rel="noopener">/in/tu-usuario</a>
+                    <a href="https://www.linkedin.com/in/paul-michel-gonz%C3%A1lez-p%C3%A9rez-0196a1217" target="_blank" rel="noopener">/in/paul-michel-gonzález-pérez</a>
                 </div>
                 <div class="contact-card">
-                    <span class="label">GITHUB</span>
-                    <a href="https://github.com/tu-usuario" target="_blank" rel="noopener">/tu-usuario</a>
+                    <span class="label">TELÉFONO</span>
+                    <a href="tel:+525536294123">+52 (55) 3629-4123</a>
                 </div>
                 <div class="contact-card">
                     <span class="label">UBICACIÓN</span>
-                    <span style="color:var(--text-muted); font-size:13px;">México</span>
+                    <span style="color:var(--text-muted); font-size:13px;">Ciudad de México, México</span>
                 </div>
             </div>
         </section>
@@ -368,7 +375,7 @@
                     <input type="text" id="term-input" autocomplete="off" placeholder="escribe un comando...">
                 </div>
             </div>
-            <p class="term-hint">Prueba: help · whoami · certs · stack · projects · contact · sudo ./play_game · clear</p>
+            <p class="term-hint">Prueba: help · whoami · certs · stack · experience · achievements · contact · sudo ./play_game · clear</p>
         </section>
 
     </main>
@@ -377,14 +384,33 @@
 <footer class="site-footer">© <span id="year"></span> Paul Michel González Pérez — CORE://PAUL_GONZALEZ</footer>
 
 <script>
-    // ---------- NAVEGACIÓN ----------
     function openTab(tabId, btn) {
         document.querySelectorAll('.tab-section').forEach(s => s.classList.remove('active'));
-        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-        document.getElementById(tabId).classList.add('active');
+        document.querySelectorAll('.nav-menu .tab-btn').forEach(b => b.classList.remove('active'));
+        const sec = document.getElementById(tabId);
+        sec.classList.add('active');
         if (btn) btn.classList.add('active');
+        animateCountersIn(sec);
     }
     document.getElementById('year').textContent = new Date().getFullYear();
+
+    // ---------- COUNTERS ----------
+    function animateCountersIn(scopeEl) {
+        const nums = scopeEl.querySelectorAll('.stat-num:not(.done)');
+        nums.forEach(el => {
+            const target = parseInt(el.getAttribute('data-target'), 10);
+            const suffix = el.getAttribute('data-suffix') || '';
+            let cur = 0;
+            const steps = 40;
+            const inc = Math.max(1, Math.ceil(target / steps));
+            el.classList.add('done');
+            const iv = setInterval(() => {
+                cur += inc;
+                if (cur >= target) { cur = target; clearInterval(iv); }
+                el.textContent = cur + suffix;
+            }, 25);
+        });
+    }
 
     // ---------- BOOT SEQUENCE ----------
     const bootLines = [
@@ -393,13 +419,11 @@
         "[OK]   Mounting /dev/paul_gonzalez...",
         "[OK]   Auth module: OVERRIDE_ACTIVE",
         "[OK]   Forcepoint suite: LOADED",
-        "[OK]   Network stack: UP",
         "[OK]   SOC monitoring: ONLINE",
         "[ ... ] Decrypting profile data",
         "[DONE] Access granted. Welcome, root."
     ];
     const bootContainer = document.getElementById('boot-lines');
-    let bootDelay = 0;
     bootLines.forEach((line, i) => {
         const p = document.createElement('p');
         p.textContent = line;
@@ -411,25 +435,35 @@
     cursorP.style.animationDelay = (bootLines.length * 0.22) + 's';
     bootContainer.appendChild(cursorP);
 
+    const bootBar = document.getElementById('boot-bar');
+    const bootPct = document.getElementById('boot-pct');
+    const totalBootMs = bootLines.length * 220 + 900;
+    let pct = 0;
+    const pctIv = setInterval(() => {
+        pct += 2;
+        if (pct >= 100) { pct = 100; clearInterval(pctIv); }
+        bootBar.style.width = pct + '%';
+        bootPct.textContent = pct + '%';
+    }, totalBootMs / 50);
+
     setTimeout(() => {
         document.getElementById('boot-screen').classList.add('hidden');
         document.getElementById('main-container').classList.add('revealed');
         startTypingAbout();
-    }, bootLines.length * 220 + 900);
+        animateCountersIn(document.getElementById('perfil'));
+    }, totalBootMs);
 
-    // ---------- MATRIX EFFECT ----------
+    // ---------- MATRIX ----------
     const canvas = document.getElementById('matrix-bg');
     const ctx = canvas.getContext('2d');
     function resizeCanvas() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
     window.addEventListener('resize', resizeCanvas);
     resizeCanvas();
-
     const chars = "01ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%&*";
     const charArr = chars.split("");
     const fontSize = 14;
     let columns = canvas.width / fontSize;
     let rainDrops = Array(Math.floor(columns)).fill(1);
-
     function drawMatrix() {
         ctx.fillStyle = 'rgba(5, 10, 5, 0.06)';
         ctx.fillRect(0, 0, canvas.width, canvas.height);
@@ -444,8 +478,8 @@
     }
     setInterval(drawMatrix, 33);
 
-    // ---------- TYPING EFFECT (about) ----------
-    const aboutText = "Desarrollador de entornos informáticos, apasionado por las terminales de comandos avanzadas, la automatización y el diseño de interfaces seguras de alto impacto visual. Especializado en infraestructura de redes, datos y ciberseguridad (suite Forcepoint), con experiencia en sectores privado y gubernamental.";
+    // ---------- TYPING ABOUT ----------
+    const aboutText = "Ingeniero en Comunicaciones y Electrónica con más de 3 años de experiencia en ciberseguridad perimetral, ingeniería de redes core y operaciones SOC. Especializado en alta disponibilidad, mitigación de fugas de información (DLP) y protección de tráfico masivo. Experto en resolución de incidentes bajo SLA estrictos y arquitecturas híbridas multi-cloud.";
     function startTypingAbout() {
         const el = document.getElementById('typed-about');
         let i = 0;
@@ -457,36 +491,25 @@
         el.appendChild(span);
         el.appendChild(cursor);
         function tick() {
-            if (i < aboutText.length) {
-                span.textContent += aboutText[i];
-                i++;
-                setTimeout(tick, 14);
-            }
+            if (i < aboutText.length) { span.textContent += aboutText[i]; i++; setTimeout(tick, 12); }
         }
         tick();
     }
 
-    // ---------- MINI JUEGO (hackeo) ----------
+    // ---------- MINI JUEGO ----------
     let secretCode = Math.floor(Math.random() * 20) + 1;
     let attempts = 4;
     let gameActive = false;
-
     function startGameInTerminal() {
-        gameActive = true;
-        attempts = 4;
-        secretCode = Math.floor(Math.random() * 20) + 1;
+        gameActive = true; attempts = 4; secretCode = Math.floor(Math.random() * 20) + 1;
         printTerm("[RETO] Adivina el número secreto (1-20). Intentos: " + attempts + ". Escribe un número.");
     }
-
     function handleGameGuess(raw) {
         const guess = parseInt(raw);
-        if (isNaN(guess) || guess < 1 || guess > 20) {
-            printTerm("[ERROR] Código fuera de rango (1-20).");
-            return;
-        }
+        if (isNaN(guess) || guess < 1 || guess > 20) { printTerm("[ERROR] Código fuera de rango (1-20)."); return; }
         attempts--;
         if (guess === secretCode) {
-            printTerm("[ACCESO CONCEDIDO] ¡Sistema vulnerado! Intereses desbloqueados: Series Sci-Fi, Ciberseguridad, Linux Avanzado, Hardware Gaming.");
+            printTerm("[ACCESO CONCEDIDO] ¡Sistema vulnerado!");
             gameActive = false;
         } else if (attempts <= 0) {
             printTerm("[SISTEMA BLOQUEADO] Clave correcta era " + secretCode + ". Reiniciando...");
@@ -497,51 +520,39 @@
         }
     }
 
-    // ---------- TERMINAL INTERACTIVA ----------
+    // ---------- TERMINAL ----------
     const termOutput = document.getElementById('term-output');
     const termInput = document.getElementById('term-input');
-
     function printTerm(text) {
         const p = document.createElement('p');
         p.textContent = text;
         termOutput.appendChild(p);
         termOutput.scrollTop = termOutput.scrollHeight;
     }
-
+    const navBtns = () => document.querySelectorAll('.nav-menu .tab-btn');
     const commands = {
-        help: () => printTerm("Comandos: help, whoami, about, certs, stack, projects, experience, contact, sudo ./play_game, clear"),
-        whoami: () => printTerm("paul_michel_gonzalez_perez — Ingeniero en infraestructura de redes, datos y ciberseguridad."),
-        about: () => { openTab('perfil', document.querySelector('.nav-menu button')); printTerm("[OK] Abriendo about_me.txt en el panel principal..."); },
-        certs: () => { openTab('certificaciones', document.querySelectorAll('.nav-menu button')[1]); printTerm("[OK] 7 certificaciones Forcepoint cargadas."); },
-        stack: () => { openTab('stack', document.querySelectorAll('.nav-menu button')[2]); printTerm("[OK] Stack técnico desplegado."); },
-        projects: () => { openTab('proyectos', document.querySelectorAll('.nav-menu button')[3]); printTerm("[OK] Repositorios listados."); },
-        experience: () => { openTab('experiencia', document.querySelectorAll('.nav-menu button')[4]); printTerm("[OK] Historial de experiencia cargado."); },
-        contact: () => { openTab('contacto', document.querySelectorAll('.nav-menu button')[5]); printTerm("[OK] Datos de contacto disponibles."); },
+        help: () => printTerm("Comandos: help, whoami, about, certs, stack, experience, achievements, contact, sudo ./play_game, clear"),
+        whoami: () => printTerm("paul_michel_gonzalez_perez — Especialista en Ciberseguridad Perimetral, Redes y SOC."),
+        about: () => { openTab('perfil', navBtns()[0]); printTerm("[OK] Abriendo about_me.txt..."); },
+        certs: () => { openTab('certificaciones', navBtns()[1]); printTerm("[OK] Certificaciones cargadas."); },
+        stack: () => { openTab('stack', navBtns()[2]); printTerm("[OK] Stack técnico desplegado."); },
+        experience: () => { openTab('experiencia', navBtns()[3]); printTerm("[OK] Historial de experiencia cargado."); },
+        achievements: () => { openTab('logros', navBtns()[4]); printTerm("[OK] Métricas y logros cargados."); },
+        contact: () => { openTab('contacto', navBtns()[5]); printTerm("[OK] Datos de contacto disponibles."); },
         clear: () => { termOutput.innerHTML = ''; }
     };
-
     printTerm("Bienvenido a la terminal interactiva. Escribe 'help' para empezar.");
-
     termInput.addEventListener('keydown', (e) => {
         if (e.key !== 'Enter') return;
         const raw = termInput.value.trim();
         if (raw === '') return;
         printTerm("> " + raw);
         termInput.value = '';
-
-        if (gameActive) {
-            handleGameGuess(raw);
-            return;
-        }
-
+        if (gameActive) { handleGameGuess(raw); return; }
         const cmd = raw.toLowerCase();
-        if (cmd === 'sudo ./play_game' || cmd === './play_game' || cmd === 'play_game') {
-            startGameInTerminal();
-        } else if (commands[cmd]) {
-            commands[cmd]();
-        } else {
-            printTerm("bash: " + raw + ": comando no encontrado. Escribe 'help'.");
-        }
+        if (cmd === 'sudo ./play_game' || cmd === './play_game' || cmd === 'play_game') startGameInTerminal();
+        else if (commands[cmd]) commands[cmd]();
+        else printTerm("bash: " + raw + ": comando no encontrado. Escribe 'help'.");
     });
 </script>
 </body>
