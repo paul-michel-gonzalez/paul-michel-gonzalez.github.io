@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portafolio de Paul Michel</title>
+    <style>
+        body { font-family: sans-serif; margin: 0; padding: 20px; background: #f4f4f9; color: #333; }
+        nav { display: flex; gap: 15px; border-bottom: 2px solid #ccc; padding-bottom: 10px; margin-bottom: 20px; }
+        nav a { text-decoration: none; color: #555; font-weight: bold; padding: 8px 16px; border: 1px solid #ccc; border-radius: 4px; background: #fff; }
+        nav a:hover { background: #eee; }
+        .tab-content { display: none; padding: 20px; background: white; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        #perfil { display: block; }
+        .tab-content:target { display: block; }
+        :target ~ #perfil { display: none; }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <a href="#perfil">Perfil</a>
+        <a href="#proyectos">Proyectos</a>
+        <a href="#series">Series</a>
+    </nav>
+
+    <main>
+        <section id="perfil" class="tab-content">
+            <h2>Sobre Mí</h2>
+            <p>¡Hola! Bienvenido a mi portafolio web alojado en GitHub Pages.</p>
+        </section>
+
+        <section id="proyectos" class="tab-content">
+            <h2>Mis Proyectos</h2>
+            <p>Aquí se mostrarán mis desarrollos y repositorios futuros.</p>
+        </section>
+
+        <section id="series" class="tab-content">
+            <h2>Series e Intereses</h2>
+            <p>Sección destinada a mis contenidos favoritos e intereses técnicos.</p>
+        </section>
+    </main>
+
+</body>
+</html>
