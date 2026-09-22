@@ -172,7 +172,7 @@
             event.currentTarget.classList.add('active');
         }
 
-        // --- 1. EFECTO MATRIX ---
+        // --- 1. EFECTO MATRIX ANIMADO ---
         const canvas = document.getElementById('matrix-bg');
         const ctx = canvas.getContext('2d');
 
@@ -226,24 +226,26 @@
             document.getElementById('guesses-left').innerText = attempts;
 
             if (guess === secretCode) {
-        if (guess === secretCode) {
-            log.innerHTML = "<p style='color:#00ff66; font-weight:bold;'>[ACCESO CONCEDIDO] ¡Sistema vulnerado! Intereses: Series Sci-Fi, Ciberseguridad, Linux Avanzado, Hardware Gaming.</p>";
-            document.getElementById('user-guess').disabled = true;
-        } else if (attempts <= 0) {
-            log.innerHTML = `<p style='color:red; font-weight:bold;'>[SISTEMA BLOQUEADO] Clave correcta era ${secretCode}. Reiniciando terminal...</p>`;
-            document.getElementById('user-guess').disabled = true;
-            setTimeout(() => {
-                secretCode = Math.floor(Math.random() * 20) + 1;
-                attempts = 4;
-                document.getElementById('guesses-left').innerText = attempts;
-                document.getElementById('user-guess').disabled = false;
-                log.innerHTML = "<p>[SISTEMA REINICIADO] Intenta de nuevo.</p>";
-            }, 4000);
-        } else {
-            const hint = guess < secretCode ? "MAYOR" : "MENOR";
-            log.innerHTML += `<p>> Intento fallido. El código es ${hint} que ${guess}.</p>`;
+                log.innerHTML = "[ACCESO CONCEDIDO] ¡Sistema vulnerado! Intereses: Series Sci-Fi, Ciberseguridad, Linux Avanzado, Hardware Gaming.";
+                document.getElementById('user-guess').disabled = true;
+            } else if (attempts <= 0) {
+                log.innerHTML = `<p style='color:red; font-weight:bold;'>[SISTEMA BLOQUEADO] Clave correcta era ${secretCode}. Reiniciando terminal...</p>`;
+                document.getElementById('user-guess').disabled = true;
+                setTimeout(() => {
+                    secretCode = Math.floor(Math.random() * 20) + 1;
+                    attempts = 4;
+                    document.getElementById('guesses-left').innerText = attempts;
+                    document.getElementById('user-guess').disabled = false;
+                    log.innerHTML = "[SISTEMA REINICIADO] Intenta de nuevo.";
+                }, 4000);
+            } else {
+                const hint = guess < secretCode ? "MAYOR" : "MENOR";
+                log.innerHTML += `<p>> Intento fallido. El código es ${hint} que ${guess}.</p>`;
+            }
+            input.value = "";
+            log.scrollTop = log.scrollHeight;
         }
-        input.value = "";
-        log.scrollTop = log.scrollHeight;
-    }
+    </script>
+</body>
+</html>
 
