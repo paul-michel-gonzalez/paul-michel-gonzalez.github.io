@@ -3,20 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Paul Michel - Terminal Portafolio</title>
+    <title>Paul Michel - Cyber Terminal</title>
     <style>
         :root {
-            --bg-main: #0a0f0d;      /* Fondo negro profundo */
-            --bg-card: #111a16;      /* Fondo de tarjetas gris-verdoso muy oscuro */
-            --accent: #00ff66;       /* Verde neón estilo hacker */
-            --accent-dim: #006622;   /* Verde oscuro para bordes */
-            --text-main: #c8ffd4;    /* Texto claro con tinte verde */
-            --text-muted: #70a37f;   /* Texto secundario */
+            --bg-main: #050a05;      
+            --bg-card: rgba(10, 20, 12, 0.92);      
+            --accent: #00ff66;       
+            --accent-dim: #005f26;   
+            --text-main: #d0ffd0;    
+            --text-muted: #55946b;   
         }
         
         * { box-sizing: border-box; }
         
-        /* Fondo con efecto de líneas de escaneo de terminal antigua */
         body { 
             font-family: 'Courier New', Courier, monospace; 
             margin: 0; 
@@ -25,27 +24,34 @@
             display: flex; 
             justify-content: center; 
             padding: 40px 20px;
-            background-image: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
-            background-size: 100% 4px, 3px 100%;
+            overflow-x: hidden;
+        }
+
+        /* Lienzo Matrix de fondo */
+        #matrix-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: -1;
         }
         
-        /* Contenedor Principal */
-        .container { display: flex; gap: 24px; max-width: 1128px; width: 100%; align-items: flex-start; }
+        .container { display: flex; gap: 24px; max-width: 1128px; width: 100%; align-items: flex-start; z-index: 10; }
 
-        /* Columna Izquierda: Terminal de Control (Sidebar) */
         .sidebar { 
             width: 300px; 
             background: var(--bg-card); 
-            border: 1px solid var(--accent-dim); 
-            border-radius: 6px; 
+            border: 1px solid var(--accent); 
+            border-radius: 4px; 
             padding: 24px; 
-            box-shadow: 0 0 15px rgba(0, 255, 102, 0.1); 
+            box-shadow: 0 0 20px rgba(0, 255, 102, 0.2); 
             text-align: center; 
             position: sticky; 
             top: 40px; 
+            backdrop-filter: blur(5px);
         }
         
-        /* Imagen de perfil estilo interfaz digital */
         .profile-img { 
             width: 120px; 
             height: 120px; 
@@ -57,14 +63,13 @@
             justify-content: center; 
             font-size: 40px; 
             border: 2px solid var(--accent); 
-            box-shadow: 0 0 10px var(--accent-dim);
+            box-shadow: 0 0 15px var(--accent-dim);
             animation: pulse 2s infinite alternate;
         }
         
-        .sidebar h1 { font-size: 18px; margin: 0 0 4px 0; color: var(--accent); text-shadow: 0 0 5px var(--accent-dim); }
-        .sidebar p { color: var(--text-muted); font-size: 13px; margin: 0 0 16px 0; }
+        .sidebar h1 { font-size: 16px; margin: 0 0 4px 0; color: var(--accent); text-shadow: 0 0 5px var(--accent); }
+        .sidebar p { color: var(--text-muted); font-size: 12px; margin: 0 0 16px 0; }
         
-        /* Menú de comandos/pestañas */
         .nav-menu { display: flex; flex-direction: column; gap: 8px; margin-top: 20px; }
         .nav-menu a { 
             text-decoration: none; 
@@ -74,103 +79,212 @@
             border-radius: 4px; 
             font-size: 13px; 
             text-align: left; 
-            border: 1px solid transparent;
+            border: 1px solid var(--accent-dim);
+            background: rgba(0,0,0,0.4);
             transition: all 0.2s;
         }
         .nav-menu a:hover { 
-            background: rgba(0, 255, 102, 0.05); 
-            color: var(--accent); 
-            border: 1px solid var(--accent-dim);
-            box-shadow: 0 0 8px rgba(0,255,102,0.1);
+            background: rgba(0, 255, 102, 0.15); 
+            color: #fff; 
+            border: 1px solid var(--accent);
+            box-shadow: 0 0 10px rgba(0,255,102,0.3);
         }
 
-        /* Columna Derecha: Consola de Datos */
         .content { 
             flex: 1; 
             background: var(--bg-card); 
-            border: 1px solid var(--accent-dim); 
-            border-radius: 6px; 
+            border: 1px solid var(--accent); 
+            border-radius: 4px; 
             padding: 40px; 
-            box-shadow: 0 0 15px rgba(0, 255, 102, 0.1); 
-            min-height: 450px; 
+            box-shadow: 0 0 20px rgba(0, 255, 102, 0.2); 
+            min-height: 480px; 
+            backdrop-filter: blur(5px);
         }
         
-        /* Enrutamiento por anclas */
         .tab-section { display: none; }
         #perfil { display: block; } 
         .tab-section:target { display: block; }
         :target ~ #perfil { display: none; }
 
-        h2 { border-bottom: 1px solid var(--accent-dim); padding-bottom: 12px; margin-top: 0; font-size: 20px; color: var(--accent); }
+        h2 { border-bottom: 1px solid var(--accent); padding-bottom: 12px; margin-top: 0; font-size: 18px; color: var(--accent); text-shadow: 0 0 5px var(--accent); }
         
-        /* Estilo de bloques de proyectos como código fuente */
         .project-card { 
-            border: 1px dashed var(--accent-dim); 
+            border: 1px dashed var(--accent); 
             padding: 16px; 
             border-radius: 4px; 
             margin-top: 16px; 
-            background: rgba(0,0,0,0.3);
+            background: rgba(0,0,0,0.5);
         }
-        .project-card h3 { margin-top: 0; color: var(--accent); font-size: 16px; }
+        .project-card h3 { margin-top: 0; color: var(--accent); font-size: 15px; }
 
-        /* Animación parpadeante para el avatar */
-        @keyframes pulse {
-            0% { box-shadow: 0 0 5px var(--accent-dim); border-color: var(--accent-dim); }
-            100% { box-shadow: 0 0 15px var(--accent); border-color: var(--accent); }
+        /* Estilos del Mini-Juego */
+        .game-box {
+            background: #000;
+            border: 1px solid var(--accent);
+            padding: 20px;
+            margin-top: 20px;
+            border-radius: 4px;
         }
-
-        /* Indicador de consola de comandos interactivo */
-        .prompt::before {
-            content: "guest@paul-pc:~$ ";
+        .game-input {
+            background: #000;
+            border: 1px solid var(--accent);
             color: var(--accent);
+            padding: 8px;
+            font-family: monospace;
+            width: 150px;
+            margin-top: 10px;
         }
+        .game-btn {
+            background: var(--accent-dim);
+            border: 1px solid var(--accent);
+            color: white;
+            padding: 8px 16px;
+            cursor: pointer;
+            font-family: monospace;
+        }
+        .game-btn:hover { background: var(--accent); color: #000; font-weight: bold; }
+        #game-log { max-height: 120px; overflow-y: auto; margin-top: 15px; color: var(--text-muted); font-size: 12px; }
+
+        @keyframes pulse {
+            0% { box-shadow: 0 0 5px var(--accent-dim); }
+            100% { box-shadow: 0 0 20px var(--accent); }
+        }
+
+        .prompt::before { content: "root@paul-pc:~$ "; color: var(--accent); }
     </style>
 </head>
 <body>
 
+    <!-- FONTO DE MATRIX ANIMADO -->
+    <canvas id="matrix-bg"></canvas>
+
     <div class="container">
-        <!-- BARRA LATERAL (TERMINAL CONTROL) -->
+        <!-- SIDEBAR DE COMANDOS -->
         <aside class="sidebar">
-            <div class="profile-img">💻</div>
-            <h1>SYSTEM://PAUL_MICHEL</h1>
-            <p>_status: online // dev_mode</p>
+            <div class="profile-img">⚡</div>
+            <h1>CORE://PAUL_GONZALEZ</h1>
+            <p>STATUS: OVERRIDE_ACTIVE</p>
             
             <nav class="nav-menu">
-                <a href="#perfil">> ./root_about_me</a>
-                <a href="#proyectos">> ./repositories_log</a>
-                <a href="#series">> ./interests_media</a>
+                <a href="#perfil">> CAT ABOUT_ME.TXT</a>
+                <a href="#proyectos">> LS REPOSITORIES/</a>
+                <a href="#series">> Sudo ./play_game</a>
             </nav>
         </aside>
 
-        <!-- CONTENIDO PRINCIPAL (CONSOLA) -->
+        <!-- PANTALLA PRINCIPAL -->
         <main class="content">
+            <!-- SECCIÓN SOBRE MÍ -->
             <section id="perfil" class="tab-section">
-                <h2>[01] SOBRE MÍ</h2>
-                <p class="prompt">Inicializando perfil de usuario...</p>
-                <p>¡Hola! Mi nombre es <strong>Paul Michel González Pérez</strong>. Este es mi espacio virtual principal de despliegue, montado de manera estática y centralizada sobre los servidores de GitHub Pages.</p>
-                <p>Especializado en arquitecturas de sistemas, despliegues y control de entornos de desarrollo avanzados.</p>
+                <h2>[ SECURE_ACCESS: PERFIL ]</h2>
+                <p class="prompt">cat about_me.txt</p>
+                <p>Cargando registros de <strong>Paul Michel González Pérez</strong>...</p>
+                <p>Desarrollador de entornos informáticos, apasionado por las terminales de comandos avanzadas, la automatización y el diseño de interfaces seguras de alto impacto visual.</p>
             </section>
 
+            <!-- SECCIÓN PROYECTOS -->
             <section id="proyectos" class="tab-section">
-                <h2>[02] REPOSITORIOS Y PROYECTOS</h2>
-                <p class="prompt">Buscando repositorios públicos...</p>
+                <h2>[ SYSTEM_LOG: REPOSITORIOS ]</h2>
+                <p class="prompt">ls -la repositories/</p>
                 <div class="project-card">
-                    <h3>> REPO_DESTACADO_01</h3>
-                    <p>Módulo de automatización de scripts. Escrito usando buenas prácticas y optimización de recursos.</p>
+                    <h3>> SCRIPT_AUTOMATION_OS</h3>
+                    <p>Herramientas personalizadas para la optimización de flujos de trabajo sobre Linux y Windows.</p>
                 </div>
                 <div class="project-card">
-                    <h3>> REPO_DESTACADO_02</h3>
-                    <p>Configuraciones de red seguras, contenedores y entornos aislados para desarrollo de software.</p>
+                    <h3>> SECURE_PORTFOLIO_V2</h3>
+                    <p>Despliegue estático optimizado con animaciones nativas en renderizado por hardware.</p>
                 </div>
             </section>
 
+            <!-- SECCIÓN JUEGO INTERACTIVO -->
             <section id="series" class="tab-section">
-                <h2>[03] INTERESES Y CONTENIDOS</h2>
-                <p class="prompt">Abriendo bitácora de intereses...</p>
-                <p>Análisis de series técnicas de ciberseguridad, documentación oficial de Linux, configuraciones avanzadas de terminales de comandos y desarrollo de software libre.</p>
+                <h2>[ SUBSYSTEM: TERMINAL_GAME ]</h2>
+                <p class="prompt">./play_game</p>
+                <p>Para desbloquear los registros de intereses multimedia, debes descifrar la clave de acceso del sistema.</p>
+                
+                <div class="game-box">
+                    <p><strong>RETO:</strong> Adivina el número secreto de protección (entre 1 y 20).</p>
+                    <p>Intentos restantes: <span id="guesses-left" style="color:red; font-weight:bold;">4</span></p>
+                    <input type="number" id="user-guess" class="game-input" placeholder="Ingresa número" min="1" max="20">
+                    <button onclick="checkHack()" class="game-btn">HACKEAR</button>
+                    <div id="game-log"></div>
+                </div>
             </section>
         </main>
     </div>
 
-</body>
-</html>
+    <!-- SCRIPTS ANIMACIÓN Y JUEGO -->
+    <script>
+        // --- 1. CONFIGURACIÓN DEL EFECTO MATRIX ANIMADO ---
+        const canvas = document.getElementById('matrix-bg');
+        const ctx = canvas.getContext('2d');
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        const chars = "01ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%&*";
+        const charArr = chars.split("");
+        const fontSize = 14;
+        const columns = canvas.width / fontSize;
+        const rainDrops = Array(Math.floor(columns)).fill(1);
+
+        function drawMatrix() {
+            ctx.fillStyle = 'rgba(5, 10, 5, 0.06)'; // Crea el efecto rastro difuminado
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            ctx.fillStyle = '#00ff66';
+            ctx.font = fontSize + 'px monospace';
+
+            for (let i = 0; i < rainDrops.length; i++) {
+                const text = charArr[Math.floor(Math.random() * charArr.length)];
+                ctx.fillText(text, i * fontSize, rainDrops[i] * fontSize);
+
+                if (rainDrops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+                    rainDrops[i] = 0;
+                }
+                rainDrops[i]++;
+            }
+        }
+        setInterval(drawMatrix, 33); // ~30 cuadros por segundo para fluidez constante
+
+        // --- 2. LOGICA DEL MINI JUEGO DE HACKING ---
+        let secretCode = Math.floor(Math.random() * 20) + 1;
+        let attempts = 4;
+        const log = document.getElementById('game-log');
+
+        function checkHack() {
+            const input = document.getElementById('user-guess');
+            const guess = parseInt(input.value);
+            
+            if (isNaN(guess) || guess < 1 || guess > 20) {
+                log.innerHTML += "<p style='color:orange;'>[ERROR] Código fuera de rango (1-20).</p>";
+                return;
+            }
+
+            attempts--;
+            document.getElementById('guesses-left').innerText = attempts;
+
+            if (guess === secretCode) {
+                log.innerHTML = "<p style='color:#00ff66; font-weight:bold;'>[ACCESO CONCEDIDO] ¡Sistema vulnerado! Intereses: Series Sci-Fi, Ciberseguridad, Linux Avanzado, Hardware Gaming.</p>";
+                document.getElementById('user-guess').disabled = true;
+            } else if (attempts <= 0) {
+                log.innerHTML = `<p style='color:red; font-weight:bold;'>[SISTEMA BLOQUEADO] Clave correcta era ${secretCode}. Reiniciando terminal...</p>`;
+                document.getElementById('user-guess').disabled = true;
+                setTimeout(() => {
+                    secretCode = Math.floor(Math.random() * 20) + 1;
+                    attempts = 4;
+                    document.getElementById('guesses-left').innerText = attempts;
+                    document.getElementById('user-guess').disabled = false;
+                    log.innerHTML = "<p>[SISTEMA REINICIADO] Intenta de nuevo.</p>";
+                }, 4000);
+            } else {
+                const hint = guess < secretCode ? "MAYOR" : "MENOR";
+                log.innerHTML += `<p>> Intento fallido. El código es ${hint} que ${guess}.</p>`;
+            }
+            input.value = "";
+            log.scrollTop = log.scrollHeight;
+        }
